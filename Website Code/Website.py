@@ -1,9 +1,10 @@
-from flask import Flask
+from flask import Flask, redirect, url_for, render_template
 
-app = Flask(_main_)
+app = Flask(__name__)
 
+@app.route("/")
 def home():
-    return "Hello this is the main page <hl>HELLO<hl>"
+    return render_template("Website.html")
 
-if _name_ == "main":
+if __name__ == "__main__":
     app.run()
