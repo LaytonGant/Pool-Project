@@ -4,7 +4,6 @@ Example sketch for interfacing with the DS1620 temperature chip.
 Copyright (c) 2011, Matt Sparks
 All rights reserved.
 */
-
 #include <stdlib.h>
 #include <DS1620.h>
 
@@ -17,9 +16,11 @@ static const uint8_t DQ_PIN  = 9;  // pin 1 on DS1620
 
 
 DS1620 ds1620(RST_PIN, CLK_PIN, DQ_PIN);
+
+
 void setup()
 {
-  Serial.begin(9600); // Baud rate
+  Serial.begin(9600);
   delay(100);
 
   ds1620.config();
