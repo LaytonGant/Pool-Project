@@ -5,24 +5,33 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
 </head>
-    <body>
-    
-        <button onclick="tempUp()"style = "position:relative; left:1200px; top:2px; background-color:#9e9e9e;color:#000000;border-radius:5px">Up</button>
+    <body>            
+        <button onclick="tempUp()"style = "position:relative; left:80px; top:2px; background-color:#9e9e9e;color:#000000;border-radius:5px">Up</button>
+        <button onclick="tempDown()"style = "position:relative; left:130px; top:2px; background-color:#9e9e9e;color:#000000;border-radius:5px;">Down</button>
+        <button onclick="DisplayTemp()"style = "position:relative; left:180px; top:2px; background-color:#9e9e9e;color:#000000;border-radius:5px">DisplayTemperature</button>
 
-        <button onclick="tempDown()"style = "position:relative; left:1250px; top:2px; background-color:#9e9e9e;color:#000000;border-radius:5px;">Down</button>
-        
         <p id="Temperature":Temp></p>
-        <p>Date: <span id="datetime"></span></p>
+        <p id="CurrentTemperature":CTemp></p>
         
         <script>
+            var Temperature,CurrentTemperature;
+            CurrentTemperature = 80;
+            Temperature = 72;
             function tempUp(){
-                document.getElementById('Temperature').innerHTML = Date()
+                Temperature = Temperature + 1;
+                document.getElementById("Temperature").innerHTML = Temperature;
             }
+            
             function tempDown(){
-                document.getElementById('Temperature').innerHTML = Date()
+                Temperature = Temperature - 1
+                document.getElementById("Temperature").innerHTML = Temperature;
+                
             }
-            var dt = new Date();
-            document.getElementById("datetime").innerHTML = dt.toLocaleDateString();
+            function DisplayTemp(){
+                 document.getElementById("CurrentTemperature").innerHTML = CurrentTemperature;
+            }
+            
+
         </script>
         
         <hl>Pool Control</hl>
