@@ -1,14 +1,73 @@
 body {
-  background-color: lightblue;
+  background-color: black;
+  margin: auto;
+  width: 1300px; 
+  padding: 20px;
+  font-family: verdana;
+
 }
 
-.button {
+div.Title {
+    background-color: #5c5c5c;
+    border: double #292929;
+}
+
+div.MainButtons {
+    background-color: #5c5c5c;
+    border-block: double lightblue;
+    border-inline: 5px solid red;
+}
+
+div.DataBox {
+    background-color: #5c5c5c;
+    border-block: solid lightblue;
+    border-inline: 5px solid red;
+}
+
+hl {
+    color: white;
+    font-family: verdana;
+    font-size: 200%;
+    text-align: center;
+    
+}
+
+p {
+    color: white;
+    font-family: verdana;
+    font-size: 100%;
+}
+
+p.Temp {
+    border-bottom-style: solid #292929;
+    border-block-width: 10px;
+    left: 5px;
+}
+
+p.CurrentTemp {
+    border-block-end-style: solid #292929S;
+    border-block-end-width: 10px;
+    left: 5px;
+}
+
+p.AirTemp {
+    left: 5px;
+}
+
+p.PHLVL {
+    left: 5px
+}
+
+.button1 {
   background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
+  border-radius: 5px;
+  color: #cfcfcf;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  left: 65px;
+  top: 2px;
 }
+
