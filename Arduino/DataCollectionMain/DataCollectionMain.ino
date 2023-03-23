@@ -14,6 +14,10 @@ All rights reserved.
 #define AIR_TEMP_SENS 1    // Air Temperature Sensor
 #define WATER_TEMP_SENS 2    // Water Temperature Sensor
 #define WATER_SENSOR 3    //Water Level Sensor
+#define RELAY_1 4    // Relay 1
+#define RELAY_2 5    // Relay 2
+#define RELAY_3 6    // Relay 3
+#define RELAY_4 7    // Relay 4
 
 #define SensorPin A0            //pH meter Analog output to Arduino Analog Input 0
 #define Offset -.61            //deviation compensate
@@ -36,12 +40,12 @@ DallasTemperature sensors(&oneWire);
 
 // Set the appropriate digital I/O pin connections.
 // See the datasheet f  qor more details.
-static const uint8_t RST_PIN = 5;  // pin 3 on DS1620
-static const uint8_t CLK_PIN = 6;  // pin 2 on DS1620
-static const uint8_t DQ_PIN  = 7;  // pin 1 on DS1620
+// static const uint8_t RST_PIN = 5;  // pin 3 on DS1620
+// static const uint8_t CLK_PIN = 6;  // pin 2 on DS1620
+// static const uint8_t DQ_PIN  = 7;  // pin 1 on DS1620
 
 
-DS1620 ds1620(RST_PIN, CLK_PIN, DQ_PIN);
+// DS1620 ds1620(RST_PIN, CLK_PIN, DQ_PIN);
 
 void setup()
 {
