@@ -7,21 +7,21 @@ body {
 
 }
 
-div.Title {
-    background-color: #5c5c5c;
-    border: double #292929;
-}
-
-div.MainButtons {
-    background-color: #5c5c5c;
-    border-block: double lightblue;
-    border-inline: 5px solid red;
+header {
+    background-color: black;
+    padding: 5px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
 }
 
 div.DataBox {
-    background-color: #5c5c5c;
-    border-block: solid lightblue;
-    border-inline: 5px solid red;
+    border: 7px groove #5c5c5c;
+    left:5px;
+    top:8px;
+    width:50%;
+    float:left;
+    background-color: #3e2d63;
 }
 
 hl {
@@ -29,7 +29,14 @@ hl {
     font-family: verdana;
     font-size: 200%;
     text-align: center;
-    
+    background-color: ##3673d6;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 40%;
+  background-color: #f1f1f1;
 }
 
 p {
@@ -69,5 +76,91 @@ p.PHLVL {
   font-size: 16px;
   left: 65px;
   top: 2px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.pump-wrapper {
+    width: 15%;
+    float:left;
+    background-color: #cb24d1;
+}
+
+.lights-wrapper {
+    width: 15%;
+    float:left;
+    background-color: #dbce16;
+}
+
+.filter-wrapper {
+    width: 15%;
+    float:left;
+    background-color: #e35b07;
+}
+
+.Temp {
+    width: 15%;
+    float:left;
+    border-block: double lightblue;
+    border-inline: 5px solid red;
+    background-color: #5c5c5c;
 }
 

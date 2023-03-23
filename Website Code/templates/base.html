@@ -6,53 +6,81 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
 </head>
     <body>
-        <div class="Title">
-            <hl>Pool Control</hl>
-            {% block content %}
-            {% endblock %}
-        <div>
+        <header>
+            <hl>Pool Controller</hl>
+        </header>
+
+        <section>
         
-        <div class="MainButtons">
-            <button class="button" onclick="tempUp()">Up</button>
-            <button class="button" onclick="tempDown()">Down</button>
-            <button class="button" onclick="DisplayTemp()">DisplayTemperature</button>
-            <button class="button" onclick="DisplayAir()">DisplayAirTemperature</button>
+            <div class="pump-wrapper">
+            <p>Pool Pump</p>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
 
-            <script>
-                var Temperature,CurrentTemperature,AirTemp;
-                AirTemp = 42;
-                CurrentTemperature = 80;
-                Temperature = 72;
-                function tempUp(){
-                    Temperature = Temperature + 1;
-                    document.getElementById("Temperature").innerHTML = Temperature;
-                }
-                
-                function tempDown(){
-                    Temperature = Temperature - 1
-                    document.getElementById("Temperature").innerHTML = Temperature;
-                    
-                }
-                function DisplayTemp(){
-                     document.getElementById("CurrentTemperature").innerHTML = CurrentTemperature;
-                }
-                function DisplayAir(){
-                    document.getElementById("AirTemp").innerHTML = AirTemp;
-                }
-                function DisplayPH(){
-                    document.getElecmentById("PHLevel").innerHTML = PHLevel;
-                }
-                
-            </script>
-    
-        </div>
+            <div class="lights-wrapper">
+            <p>Lights</p>
+              <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+              </label>
+            </div>
 
-        <div class="DataBox">
-            <p class=Temp id="Temperature":Temp>Change Temperature XXX-XXX F</p>
-            <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature XXX-XXX F</p>
-            <p class=AirTemp id="AirTemp":CTemp>Air Temperature XXX-XXX F</p>
-            <p class=PHLVL id="PHLevel":PH>PH level XXX-XXX</p>
+            <div class="filter-wrapper">
+            <p>Pool Filter</p>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
             
-        </div>
+            <div class="Temp">
+                <button class="button" onclick="tempUp()">Up</button>
+                <button class="button" onclick="tempDown()">Down</button>
+               
+                <script>
+                    var Temperature,CurrentTemperature,AirTemp;
+                    AirTemp = 42;
+                    CurrentTemperature = 80;
+                    Temperature = 72;
+                    function tempUp(){
+                        Temperature = Temperature + 1;
+                        document.getElementById("Temperature").innerHTML = Temperature;
+                    }
+                    
+                    function tempDown(){
+                        Temperature = Temperature - 1
+                        document.getElementById("Temperature").innerHTML = Temperature;
+                        
+                    }
+                    function DisplayTemp(){
+                         document.getElementById("CurrentTemperature").innerHTML = CurrentTemperature;
+                    }
+                    function DisplayAir(){
+                        document.getElementById("AirTemp").innerHTML = AirTemp;
+                    }
+                    function DisplayPH(){
+                        document.getElecmentById("PHLevel").innerHTML = PHLevel;
+                    }
+                    
+                </script>
+        
+            </div>
+
+            <article>
+                <h2>Hue Control Inc.<h2>
+                <p>Controlling Your Pool Since 1969</p>
+            </article>
+
+            <div class="DataBox">
+                <p class=Temp id="Temperature":Temp>Change Temperature XXX-XXX F</p>
+                <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature XXX-XXX F</p>
+                <p class=AirTemp id="AirTemp":CTemp>Air Temperature XXX-XXX F</p>
+                <p class=PHLVL id="PHLevel":PH>PH level XXX-XXX</p>
+                
+            </div>
+        <section>
     </body>
 </html>
