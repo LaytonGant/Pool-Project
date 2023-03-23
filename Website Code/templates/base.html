@@ -3,31 +3,84 @@
 <head>
 
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for{'static',filename='style.css'}}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
 </head>
     <body>
-    
-        <button onclick="tempUp()"style = "position:relative; left:1200px; top:2px; background-color:#9e9e9e;color:#000000;border-radius:5px">Up</button>
+        <header>
+            <hl>Pool Controller</hl>
+        </header>
 
-        <button onclick="tempDown()"style = "position:relative; left:1250px; top:2px; background-color:#9e9e9e;color:#000000;border-radius:5px;">Down</button>
+        <section>
         
-        <p id="Temperature":Temp></p>
-        <p>Date: <span id="datetime"></span></p>
+            <div class="pump-wrapper">
+            <p>Pool Pump</p>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="lights-wrapper">
+            <p>Lights</p>
+              <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="filter-wrapper">
+            <p>Pool Filter</p>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div class="Temp">
+                <button class="button" onclick="tempUp()">Up</button>
+                <button class="button" onclick="tempDown()">Down</button>
+               
+                <script>
+                    var Temperature,CurrentTemperature,AirTemp;
+                    AirTemp = 42;
+                    CurrentTemperature = 80;
+                    Temperature = 72;
+                    function tempUp(){
+                        Temperature = Temperature + 1;
+                        document.getElementById("Temperature").innerHTML = Temperature;
+                    }
+                    
+                    function tempDown(){
+                        Temperature = Temperature - 1
+                        document.getElementById("Temperature").innerHTML = Temperature;
+                        
+                    }
+                    function DisplayTemp(){
+                         document.getElementById("CurrentTemperature").innerHTML = CurrentTemperature;
+                    }
+                    function DisplayAir(){
+                        document.getElementById("AirTemp").innerHTML = AirTemp;
+                    }
+                    function DisplayPH(){
+                        document.getElecmentById("PHLevel").innerHTML = PHLevel;
+                    }
+                    
+                </script>
         
-        <script>
-            function tempUp(){
-                document.getElementById('Temperature').innerHTML = Date()
-            }
-            function tempDown(){
-                document.getElementById('Temperature').innerHTML = Date()
-            }
-            var dt = new Date();
-            document.getElementById("datetime").innerHTML = dt.toLocaleDateString();
-        </script>
-        
-        <hl>Pool Control</hl>
-        {% block content %}
-        {% endblock %}
-        
+            </div>
+
+            <article>
+                <h2>Hue Control Inc.<h2>
+                <p>Controlling Your Pool Since 1969</p>
+            </article>
+
+            <div class="DataBox">
+                <p class=Temp id="Temperature":Temp>Change Temperature XXX-XXX F</p>
+                <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature XXX-XXX F</p>
+                <p class=AirTemp id="AirTemp":CTemp>Air Temperature XXX-XXX F</p>
+                <p class=PHLVL id="PHLevel":PH>PH level XXX-XXX</p>
+                
+            </div>
+        <section>
     </body>
 </html>
