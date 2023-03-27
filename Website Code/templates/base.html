@@ -1,13 +1,15 @@
 <!doctype html>
 <html>
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
 </head>
+
     <body>
         <header>
-            <hl>Pool Controller</hl>
+            <hl>&#127754; Pool Controller &#127754;</hl>
         </header>
 
         <section>
@@ -36,11 +38,18 @@
               </label>
             </div>
             
-            <div class="Temp">
+            <div class="temp-wrapper">
                 <button class="button" onclick="tempUp()">Up</button>
-                <button class="button" onclick="tempDown()">Down</button>
-               
-                <script>
+                <button class="button" onclick="tempDown()">Down</button>   
+            </div>
+
+            <article>
+                <h2>Hue Control Inc.<h2>
+                <p>Controlling Your Pool Since 1969</p>
+            </article>
+
+            <div class="DataBox">
+                 <script>
                     var Temperature,CurrentTemperature,AirTemp;
                     AirTemp = 42;
                     CurrentTemperature = 80;
@@ -66,25 +75,19 @@
                     }
                     
                 </script>
-        
-            </div>
-
-            <article>
-                <h2>Hue Control Inc.<h2>
-                <p>Controlling Your Pool Since 1969</p>
-            </article>
-
-            <div class="DataBox">
+                
                 <p class=Temp id="Temperature":Temp>Change Temperature XXX-XXX F</p>
                 <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature XXX-XXX F</p>
                 <p class=AirTemp id="AirTemp":CTemp>Air Temperature XXX-XXX F</p>
                 <p class=PHLVL id="PHLevel":PH>PH level XXX-XXX</p>
                 
             </div>
-
-            <div class="Maher">
-                <img src="Maher.jpg"/>
-            </div>
+            
         <section>
+        
+        <IMG SRC="images/Maher.jpg" alt="A funny Maher"
+        width"10"
+        height"10"/>
+            
     </body>
 </html>
