@@ -7,8 +7,6 @@
     A library for sending and receiving commands from a Raspberry Pi 
     for a pool controller. 
 
-    ==========Version History==========
-    1.0: Created header - March 23 2023
 */
 
 #ifndef PoolCom_h
@@ -18,9 +16,26 @@
 class PoolCom {
   public:
     PoolCom();
-    void init(int baud);
+    PoolCom(int b);
     void test();
+    bool read();
+    bool write(int msgData);
+
+    // Getters and setters
+    int getBaud();
+    bool isGoodRead();
+    int getReqType();
+    int getDevice();
+    int getData();
   private:
+    int baud;     // Communication baud rate
+    bool goodRead; // If the last read attempt was successful
+    
+    // The 3 attributes below are valid only for the last read attempt
+    int reqType;  // Request type (input/output)
+    int device;   // Target device
+    int data;     // Instruction data
     
 };
+
 #endif
