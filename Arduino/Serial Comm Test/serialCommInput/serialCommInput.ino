@@ -6,16 +6,16 @@ void setup() {
 
 void loop() {
   // Initialize variables
-  String msg;
+  String strMsg;
+  int intMsg;
   
   // See if data is available on the serial port
   if (Serial.available()) {
     // Read in data
-    msg = Serial.readString();
-    // Trim leading or trailing whitespace
-    msg.trim();
+    intMsg = readInt();
+    
     // See if message matches
-    if (msg == "Hello from Pi!") {
+    if (intMsg == 23) {
       // Flash LED
       digitalWrite(LED_BUILTIN, HIGH);
       delay(250);
@@ -23,4 +23,24 @@ void loop() {
       delay(250);
     }
   }
+}
+
+String readStr() {
+  String msg;
+  
+  // Read in data
+  msg = Serial.readString();
+  // Trim leading or trailing whitespace
+  msg.trim();
+
+  return msg;
+}
+
+int readInt() {
+  int msg;
+  
+  // Read in data
+  msg = Serial.parseInt();
+
+  return msg;
 }

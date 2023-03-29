@@ -16,10 +16,10 @@ header {
 }
 
 div.DataBox {
-    border: 7px groove #5c5c5c;
+    border: 5px groove #5c5c5c;
     left:5px;
     top:8px;
-    width:50%;
+    width:60%;
     float:left;
     background-color: #3e2d63;
 }
@@ -35,7 +35,7 @@ hl {
 article {
   float: left;
   padding: 20px;
-  width: 40%;
+  width: 35%;
   background-color: #f1f1f1;
 }
 
@@ -156,11 +156,10 @@ input:checked + .slider:before {
     background-color: #e35b07;
 }
 
-.Temp {
+.temp-wrapper {
     width: 15%;
     float:left;
-    border-block: double lightblue;
-    border-inline: 5px solid red;
-    background-color: #5c5c5c;
+    background-color: #3461a8;
 }
+
 
