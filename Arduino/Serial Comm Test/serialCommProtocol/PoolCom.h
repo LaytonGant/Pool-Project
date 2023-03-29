@@ -15,8 +15,8 @@
 
 class PoolCom {
   public:
-    PoolCom();
     PoolCom(int b);
+    void init();
     void test();
     bool read();
     bool write(int msgData);

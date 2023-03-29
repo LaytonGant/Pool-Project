@@ -12,12 +12,7 @@
 #include "Arduino.h"
 #include "PoolCom.h"
 
-// Default constructor
-PoolCom::PoolCom() {
-  PoolCom(9600);
-}
-
-// Specify baud rate
+// Constructor with baud rate specified
 PoolCom::PoolCom(int b) {
   // Set initial values
   baud = b;
@@ -25,9 +20,11 @@ PoolCom::PoolCom(int b) {
   reqType = -1;
   device = -1;
   data = -1;
+}
 
-  // Start communication
-  Serial.begin(b);
+// Initialize communication
+void PoolCom::init() {
+  Serial.begin(baud);
 }
 
 // A simple test function
@@ -65,7 +62,7 @@ bool PoolCom::read() {
 
 // Writes a message. 
 // Returns false if a message cannot be successfully sent, true otherwise. 
-bool write(int msgData) {
+bool PoolCom::write(int msgData) {
   // Initialize local variables
   String msg;
 
@@ -74,7 +71,7 @@ bool write(int msgData) {
 
   // Try to send message
   if (Serial.availableForWrite() > 0) {
-    Serial.write(msg);
+    Serial.print(msg);
     return true;
   }
   else {
@@ -86,22 +83,22 @@ bool write(int msgData) {
 /*
  * ------ GETTERS AND SETTERS ------
  */
-int getBaud() {
+int PoolCom::getBaud() {
   return baud;
 }
 
-bool isGoodRead() {
+bool PoolCom::isGoodRead() {
   return goodRead;
 }
 
-int getReqType() {
+int PoolCom::getReqType() {
   return reqType;
 }
 
-int getDevice() {
+int PoolCom::getDevice() {
   return device;
 }
 
-int getData() {
+int PoolCom::getData() {
   return data;
 }
