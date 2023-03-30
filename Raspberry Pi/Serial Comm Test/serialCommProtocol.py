@@ -36,4 +36,5 @@ while comOpen:
     time.sleep(1)
 
 # Stop
+print("Stopping...")
 poolCom.stop()
