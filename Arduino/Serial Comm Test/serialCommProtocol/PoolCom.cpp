@@ -7,6 +7,8 @@
     A library for sending and receiving commands from a Raspberry Pi 
     for a pool controller. 
 
+    ========== VERSIONS ==========
+    v1.0 (3/30/23): Created file. Added basic init, read, and write functionality. 
 */
 
 #include "Arduino.h"
@@ -71,7 +73,7 @@ bool PoolCom::write(int msgData) {
 
   // Try to send message
   if (Serial.availableForWrite() > 0) {
-    Serial.print(msg);
+    Serial.println(msg);
     return true;
   }
   else {
