@@ -256,7 +256,7 @@
                     "filename_format": "%ASSEMBLYPREFIX/%N",
                     "list_attribute": true,
                     "list_type": "values",
-                    "name": "Embedded_Pool_PCD_1.0",
+                    "name": "Bill of Material",
                     "output_format": "txt",
                     "type": "bom"
                 },

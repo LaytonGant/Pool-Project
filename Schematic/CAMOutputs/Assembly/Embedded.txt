@@ -1,0 +1,11 @@
+Partlist exported from C:/Users/king_/OneDrive/Documents/GitHub/Pool-Project/Schematic/Embedded.sch at 3/30/2023 8:24 AM
+
+Qty Value          Device         Package        Parts          Description                       MF          MPN            OC_FARNELL OC_NEWARK POPULARITY
+1                  PINHD-1X3      1X03           JP1            PIN HEADER                                                                        92        
+4   10k            RESISTOR       0411/15        R2, R4, R6, R8                                                                                             
+4   1k             RESISTOR       0411/15        R1, R3, R5, R7                                                                                             
+4   2N3904         2N3904         TO92           T1, T2, T3, T4 NPN TRANSISTOR                                                                    27        
+2   SSW-101-02-G-T SSW-101-02-G-T SSW-101-02-G-T TEMP-A, TEMP-W THROUGH-HOLE .025" SQ POST SOCKET Samtec Inc. SSW-101-02-G-T unknown    82P1460             
+1   SSW-104-02-G-S SSW-104-02-G-S SSW-104-02-G-S WATERLVL       THROUGH-HOLE .025" SQ POST SOCKET Samtec Inc. SSW-104-02-G-S unknown    11P9384             
+1   SSW-106-02-G-S SSW-106-02-G-S SSW-106-02-G-S PC             THROUGH-HOLE .025" SQ POST SOCKET Samtec Inc. SSW-106-02-G-S unknown    11P9416             
+2   SSW-108-02-G-S SSW-108-02-G-S SSW-108-02-G-S PD, UTILITY    THROUGH-HOLE .025" SQ POST SOCKET Samtec Inc. SSW-108-02-G-S unknown    11P9448             
