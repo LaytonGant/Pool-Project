@@ -4,7 +4,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-   return render_template("Website.html")
+   waterLevel = "100"
+   return render_template("Website.html", waterLevel=waterLevel)
 
 @app.route("/login", methods=["POST","GET"])
 def login():

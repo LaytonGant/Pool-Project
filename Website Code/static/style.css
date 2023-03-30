@@ -24,6 +24,12 @@ div.DataBox {
     background-color: #3e2d63;
 }
 
+.MaherDiv {
+            position: center;
+            margin-left: 50px;
+            float: left;
+}
+
 hl {
     color: white;
     font-family: verdana;
@@ -161,5 +167,6 @@ input:checked + .slider:before {
     float:left;
     background-color: #3461a8;
 }
+
 
 
