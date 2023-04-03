@@ -16,7 +16,7 @@ header {
 }
 
 div.DataBox {
-    border: 5px groove #5c5c5c;
+    border: 6px solid #343e4a;
     left:5px;
     top:8px;
     width:60%;
@@ -25,9 +25,9 @@ div.DataBox {
 }
 
 .MaherDiv {
-            position: center;
-            margin-left: 50px;
-            float: left;
+    position: center;
+    margin-left: 50px;
+    float: left;
 }
 
 hl {
@@ -163,10 +163,27 @@ input:checked + .slider:before {
 }
 
 .temp-wrapper {
-    width: 15%;
+    width: 5%;
     float:left;
     background-color: #3461a8;
 }
 
+.up-wrapper {
+    width: 5%;
+    float:left;
+    background-color: #805855;
+}
 
+.down-wrapper {
+    width: 5%;
+    float:left;
+    background-color: #4dc9c5;
+}
+
+.CurrentStatus {
+    width: 100%;
+    float:left;
+    background-color; #2e0a20
+    text-decoration: underline solid #F7F7F7;
+}
 

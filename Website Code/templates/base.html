@@ -37,17 +37,28 @@
                 <span class="slider round"></span>
               </label>
             </div>
+
+            <div class="up-wrapper">
+                <button class="button" onclick="tempUp()">Up</button>
+            </div>
             
             <div class="temp-wrapper">
-                <button class="button" onclick="tempUp()">Up</button>
-                <button class="button" onclick="tempDown()">Down</button>   
+                <p class=Temp id="Temperature":Temp>72</p>
+            </div>
+
+            <div class="down-wrapper">
+                <button class="button" onclick="tempDown()">Down</button>
             </div>
 
             <article>
                 <h2>Hue Control Inc.<h2>
                 <p>Controlling Your Pool Since 1969</p>
             </article>
-
+            
+            <div class="CurrentStatus">
+                <p>Current Status:</p>
+            </div>
+            
             <div class="DataBox">
                  <script>
                     var Temperature,CurrentTemperature,AirTemp;
@@ -76,10 +87,10 @@
                     
                 </script>
                 
-                <p class=Temp id="Temperature":Temp>Change Temperature {{waterLevel}} F</p>
-                <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature XXX-XXX F</p>
-                <p class=AirTemp id="AirTemp":CTemp>Air Temperature XXX-XXX F</p>
-                <p class=PHLVL id="PHLevel":PH>PH level XXX-XXX</p>
+                <p class=WaterLevel id="CurrentWaterLvl":Temp>Water Level {{waterLevel}} ft</p>
+                <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature {{waterTemperature}} F</p>
+                <p class=AirTemp id="AirTemp":CTemp>Air Temperature {{airTemperature}} F</p>
+                <p class=PHLVL id="PHLevel":PH>PH level {{phLevel}}</p>
                 
             </div>
             
@@ -87,7 +98,7 @@
         <div class="MaherDiv">
         <img src="static/images/Maher.jpg" alt="A funny Maher"
         width="400"
-        height="250"/>
+        height="300"/>
             </div>
             
     </body>
