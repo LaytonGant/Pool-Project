@@ -19,13 +19,5 @@ def login():
     else:
         return render_template("login.html")
 
-<<<<<<< Updated upstream
-@app.route("/<usr>")
-def user(usr):
-    return "<h1>{usr}</h1>".format(usr=usr)
-=======
-
->>>>>>> Stashed changes
-
 if __name__ == "__main__":
     app.run(debug=True)
