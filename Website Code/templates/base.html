@@ -38,6 +38,10 @@
               </label>
             </div>
 
+            <form method="post" id="checkboxForm">
+                <input type="checkbox" value="Press" name="chkbx1" onclick="makePost()">
+            </form>
+
             <div class="up-wrapper">
                 <button class="button" onclick="tempUp()">Up</button>
             </div>
@@ -83,6 +87,10 @@
                     }
                     function DisplayPH(){
                         document.getElecmentById("PHLevel").innerHTML = PHLevel;
+                    }
+
+                    function makePost() {
+                        document.getElementById("checkboxForm").submit();
                     }
                     
                 </script>

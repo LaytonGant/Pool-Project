@@ -2,13 +2,19 @@ from flask import Flask, redirect, url_for, render_template, request
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET","POST"])
 def home():
-   waterLevel = "12";
-   waterTemperature = "100";
-   airTemperature = "100";
-   phLevel = "7";
-   return render_template("Website.html", waterLevel=waterLevel , waterTemperature=waterTemperature,
+    if request.method == "POST":
+       app.logger.info("Post request")
+       chckbxVal = request.form["chkbx1"]
+       app.logger.info("Checkbox value:"+chckbxVal)
+    else:
+        app.logger.info("Get request")
+    waterLevel = "12"
+    waterTemperature = "100"
+    airTemperature = "100"
+    phLevel = "7"
+    return render_template("Website.html", waterLevel=waterLevel , waterTemperature=waterTemperature,
                           airTemperature=airTemperature, phLevel=phLevel)
 
 @app.route("/login", methods=["POST","GET"])
