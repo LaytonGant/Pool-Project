@@ -51,6 +51,13 @@ p {
     font-size: 100%;
 }
 
+h2 {
+    color: white;
+    font-family: verdana;
+    font-size: 150%;
+    text-align: center;
+}
+
 p.Temp {
     border-bottom-style: solid #292929;
     border-block-width: 10px;
@@ -145,19 +152,19 @@ input:checked + .slider:before {
 }
 
 .pump-wrapper {
-    width: 15%;
+    width: 10%;
     float:left;
     background-color: #cb24d1;
 }
 
 .lights-wrapper {
-    width: 15%;
+    width: 10%;
     float:left;
     background-color: #dbce16;
 }
 
 .filter-wrapper {
-    width: 15%;
+    width: 10%;
     float:left;
     background-color: #e35b07;
 }
@@ -180,10 +187,22 @@ input:checked + .slider:before {
     background-color: #4dc9c5;
 }
 
-.CurrentStatus {
-    width: 100%;
+.temp-text {
+    width: 10%;
     float:left;
-    background-color; #2e0a20
+    background-color: #32a852;
+}
+
+.CurrentStatus {
+    width: 50%;
+    float:left;
+    background-color; #2e0a20;
     text-decoration: underline solid #F7F7F7;
+}
+
+.schedule {
+    width 20%;
+    float:left;
+    background-color; #f7d307;
 }
 

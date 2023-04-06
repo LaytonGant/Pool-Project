@@ -25,8 +25,8 @@
             <div class="lights-wrapper">
             <p>Lights</p>
               <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
+                <input type="checkbox">
+                <span class="slider round"></span>
               </label>
             </div>
 
@@ -38,6 +38,10 @@
               </label>
             </div>
 
+            <div class="temp-text">
+                <p>Water Temperature</p>
+            </div>
+            
             <div class="up-wrapper">
                 <button class="button" onclick="tempUp()">Up</button>
             </div>
@@ -50,11 +54,15 @@
                 <button class="button" onclick="tempDown()">Down</button>
             </div>
 
+            <div class="schedule">
+                <button class="button" onclick="openschedule()">Schedule</button>
+            </div>
+
             <article>
-                <h2>Hue Control Inc.<h2>
-                <p>Controlling Your Pool Since 1969</p>
+                <h2>Hue Control Inc.</h2>
+                <h2>Controlling Your Pool Since 1969</h2>
             </article>
-            
+
             <div class="CurrentStatus">
                 <p>Current Status:</p>
             </div>
@@ -65,11 +73,13 @@
                     AirTemp = 42;
                     CurrentTemperature = 80;
                     Temperature = 72;
+                    function switchlight() {
+                        
+                    }
                     function tempUp(){
                         Temperature = Temperature + 1;
                         document.getElementById("Temperature").innerHTML = Temperature;
                     }
-                    
                     function tempDown(){
                         Temperature = Temperature - 1
                         document.getElementById("Temperature").innerHTML = Temperature;
@@ -95,11 +105,12 @@
             </div>
             
         <section>
+
         <div class="MaherDiv">
-        <img src="static/images/Maher.jpg" alt="A funny Maher"
-        width="400"
-        height="300"/>
-            </div>
+                <img src="static/images/Maher.jpg" alt="A funny Maher"
+                width="400"
+                height="300"/>
+        </div>
             
     </body>
 </html>
