@@ -4,10 +4,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-   waterLevel = "12";
-   waterTemperature = "100";
-   airTemperature = "100";
-   phLevel = "7";
+   waterLevel = "12"
+   waterTemperature = "100"
+   airTemperature = "100"
+   phLevel = "7"
    return render_template("Website.html", waterLevel=waterLevel , waterTemperature=waterTemperature,
                           airTemperature=airTemperature, phLevel=phLevel)
 
