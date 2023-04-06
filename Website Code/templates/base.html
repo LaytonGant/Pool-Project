@@ -14,33 +14,40 @@
 
         <section>
         
-            <div class="pump-wrapper">
-            <p>Pool Pump</p>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </div>
+            <form method="post" id="inputForm">
 
-            <div class="lights-wrapper">
-            <p>Lights</p>
-              <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-              </label>
-            </div>
+                <div class="pump-wrapper">
+                    <p>Pool Pump</p>
+                    <label class="switch">
+                        <input type="checkbox" name="pumpSwitch" onclick="makePost()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
 
-            <div class="filter-wrapper">
-            <p>Pool Filter</p>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </div>
+                <div class="lights-wrapper">
+                    <p>Lights</p>
+                    <label class="switch">
+                            <input type="checkbox" name="lightsSwitch" onclick="makePost()">
+                            <span class="slider round"></span>
+                    </label>
+                </div>
 
-            <form method="post" id="checkboxForm">
+                <div class="filter-wrapper">
+                    <p>Pool Filter</p>
+                    <label class="switch">
+                        <input type="checkbox" name="filterSwitch" onclick="makePost()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
                 <input type="checkbox" value="Press" name="chkbx1" onclick="makePost()">
             </form>
+
+            <script>
+                function makePost() {
+                        document.getElementById("inputForm").submit();
+                    }
+            </script>
 
             <div class="up-wrapper">
                 <button class="button" onclick="tempUp()">Up</button>
@@ -87,10 +94,6 @@
                     }
                     function DisplayPH(){
                         document.getElecmentById("PHLevel").innerHTML = PHLevel;
-                    }
-
-                    function makePost() {
-                        document.getElementById("checkboxForm").submit();
                     }
                     
                 </script>
