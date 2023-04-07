@@ -1,7 +1,10 @@
 from flask import Flask, redirect, url_for, render_template, request
 
+# Initialization
 app = Flask(__name__)
 
+
+# Home page
 @app.route("/", methods=["GET","POST"])
 def home():
     # Initialize variables
@@ -26,11 +29,13 @@ def home():
     return render_template("Website.html", waterLevel=waterLevel , waterTemperature=waterTemperature,
                         airTemperature=airTemperature, phLevel=phLevel)
 
+
 def postFunc(elem):
     if elem in request.form:
         formVal = request.form[elem]
         app.logger.info("Checkbox value:"+formVal)
 
 
+# Debug
 if __name__ == "__main__":
     app.run(debug=True)

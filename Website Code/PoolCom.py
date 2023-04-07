@@ -1,13 +1,14 @@
 '''
 PoolCom.py
 Author: Colin McBride
-Date: March 30 2023
-Version 1.0
+Date: April 7 2023
+Version 1.1
 
 A library for sending and receiving commands from an Arduino 
 for a pool controller. 
 
 ========== VERSIONS ==========
+v1.1 (4/7/23): Removed direct read functionality. Made write function also read the next input. 
 v1.0 (3/30/23): Created file. Added basic init, read, and write functionality. 
 '''
 
@@ -45,7 +46,9 @@ class PoolCom:
     
     # Read function. Returns True if the read was successful, False otherwise. 
     # self.data is only updated if the read was successful. 
-    def read(self):
+    # This is a private method, intended only to be used by the write() function
+    # in the PoolCom class. 
+    def _read(self):
         # Read message
         msg = self.serialPort.readline()
 
@@ -62,11 +65,38 @@ class PoolCom:
             self.goodRead = False
             return False
     
+    
     # Write function. Returns True if the write was successful, False otherwise. 
+    # Also reads the next available input, storing the result of the read in 
+    # the class attributes. 
+    '''
+    Communication Protocol: 
+        Request Type
+            0: Input/Status request
+            1: Output/Control request
+        Device
+            Inputs
+                00: Temp Sensor 1
+                01: Temp Sensor 2
+                02: pH Sensor
+                03: Water Level Sensor
+            Outputs
+                10: Relay 1
+                11: Relay 2
+                12: Relay 3
+                13: Relay 4
+        Data
+            Inputs
+                0: Get status
+            Outputs
+                0: Turn device off
+                1: Turn device on
+    '''
     def write(self, reqType, device, data):
         msg = "{rt} {dv} {dt}".format(rt=reqType, dv=device, dt=data)
         try:
             self.serialPort.write(msg.encode("utf-8"))
+            self._read()
             return True
         except:
             return False
