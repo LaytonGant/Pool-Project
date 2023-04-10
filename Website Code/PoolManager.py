@@ -2,22 +2,25 @@
 PoolManager.py
 Author: Colin McBride
 Date: April 7 2023
-Version 1.0
+Version 1.1
 
 A library for managing interactions with a pool controller 
 with manual and automatic methods of control. 
 
 ========== VERSIONS ==========
-v1.0 (4/7/23): Created file. 
+v1.1 (4/10/23): Added scheduling functionality. 
+v1.0 (4/7/23): Created file. Added basic request functionality. 
 '''
 
 import PoolCom
+import sched, time
 
 class PoolManager:
     # --- Attributes ---
     # poolCom: PoolCom object for serial communication
     # file: File manager for reading/writing the schedule file. 
     # devices: Dictionary mapping the device IDs to their name
+    # schedManager: Scheduler object for maintaining time-based automation. 
 
     devices = {
         # Input devices
@@ -39,6 +42,7 @@ class PoolManager:
         # Make and start pool com
         self.poolCom = PoolCom(9600,"COM8")
         self.poolCom.start()
+        schedManager = sched.scheduler(time.time, time.sleep)
     
 
     # Opens serial communication
