@@ -1,17 +1,24 @@
 from flask import Flask, redirect, url_for, render_template, request
+from PoolManager import *
 
 # Initialization
 app = Flask(__name__)
-
+poolManager = PoolManager()
 
 # Home page
 @app.route("/", methods=["GET","POST"])
 def home():
+    # Initialize pool manager
+    poolManager.openCom()
+
+    # Requuest status of pool controller
+    status = poolManager.reqFullStatus()
+
     # Initialize variables
-    waterLevel = "12"
-    waterTemperature = "100"
-    airTemperature = "100"
-    phLevel = "7"
+    waterLevel = status["WaterLevel"]
+    waterTemperature = status["WaterTemp"]
+    airTemperature = status["AirTemp"]
+    phLevel = status["pH"]
     
     # Check request type
     # POST
