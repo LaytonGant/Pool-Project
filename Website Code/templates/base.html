@@ -14,7 +14,7 @@
 
         <section>
         
-            <form method="post" id="inputForm">
+            <form id="inputForm" onsubmit="return makePost()">
 
                 <div class="pump-wrapper">
                     <p>Pool Pump</p>
@@ -45,20 +45,29 @@
             </form>
 
             <script>
-                var form = document.getElementById("inputForm");
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault(); // prevent page from refreshing
-                    const formData = new FormData(form);    // grab data inside the form fields
-                    fetch('/', {
-                        method: 'POST',
+
+                function submitFunc() {
+                    document.getElementById("inputForm").submit();
+                }
+                
+                function makePost() {
+                    // Get form data
+                    const formData = new FormData(document.getElementById("inputForm"));
+
+                    // Fetch
+                    fetch("/", {
+                        method: "POST",
                         body: formData,
                     }).then(function(response) {
                         // do something with the response if needed
+                        var t = document.getElementById("Temperature").innerHTML;
+                        document.getElementById("Temperature").innerHTML = Number(t)+1;
+                    }).catch(function(err) {
+                        // error handling if needed
                     });
-                });
-                
-                function makePost() {
-                    document.getElementById("inputForm").submit();
+
+                    // Prevent form resubmit
+                    return false;
                 }
             </script>
 
