@@ -12,7 +12,7 @@ v1.1 (4/10/23): Added scheduling functionality.
 v1.0 (4/7/23): Created file. Added basic request functionality. 
 '''
 
-import PoolCom
+from PoolCom import *
 import sched, time
 
 class PoolManager:
@@ -77,6 +77,11 @@ class PoolManager:
     # Returns an integer representing the device status, or -1 if the device 
     # status could not be determined. 
     def reqStatus(self, device):
+        # Don't read if COM port is not open
+        if not self.poolCom.serialPort.is_open:
+            return -1
+
+        # Port is open, try to request status
         if device in self.devices.keys():
             self.poolCom.write(0,self.devices[device],0)
             if self.poolCom.goodRead:

@@ -34,8 +34,10 @@ class PoolCom:
     # Starts communication on the PoolCom. 
     # Returns True if the port was successfully opened, False otherwise. 
     def start(self):
+        self.serialPort = serial.Serial(baudrate=self.baud, timeout=5, write_timeout=1)
+        self.serialPort.port = self.port
         try:
-            self.serialPort = serial.Serial(self.port, self.baud, timeout=5, write_timeout=1)
+            self.serialPort.open()
             return True
         except:
             return False
