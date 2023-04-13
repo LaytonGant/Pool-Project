@@ -3,16 +3,17 @@ from PoolManager import *
 
 # Initialization
 app = Flask(__name__)
-poolManager = PoolManager()
+if not PoolManager.isInit:
+    PoolManager.initialize() # This doesn't work >:(((
 
 # Home page
 @app.route("/", methods=["GET","POST"])
 def home():
     # Initialize pool manager
-    poolManager.openCom()
+    #poolManager.openCom()
 
-    # Requuest status of pool controller
-    status = poolManager.reqFullStatus()
+    # Request status of pool controller
+    status = PoolManager.reqFullStatus()
 
     # Initialize variables
     waterLevel = status["WaterLevel"]
@@ -42,7 +43,7 @@ def postFunc(elem):
         formVal = request.form[elem]
         app.logger.info("Checkbox value:"+formVal)
 
-
 # Debug
 if __name__ == "__main__":
     app.run(debug=True)
+

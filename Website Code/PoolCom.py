@@ -25,34 +25,34 @@ class PoolCom:
     # PoolCom constructor. Creates the serial port for communication.
     # baud: Baud rate for communication
     # port: COM port for communication. Set to the default for the Rasp. Pi. 
-    def __init__(self, baud, port="/dev/ttyACM0"):
-        self.baud = baud
-        self.port = port
-        self.goodRead = False
-        self.data = "-1"
+    def initialize(baud, port="/dev/ttyACM0"):
+        PoolCom.baud = baud
+        PoolCom.port = port
+        PoolCom.goodRead = False
+        PoolCom.data = "-1"
+        PoolCom.serialPort = serial.Serial(baudrate=PoolCom.baud, timeout=5, write_timeout=1)
+        PoolCom.serialPort.port = PoolCom.port
     
     # Starts communication on the PoolCom. 
     # Returns True if the port was successfully opened, False otherwise. 
-    def start(self):
-        self.serialPort = serial.Serial(baudrate=self.baud, timeout=5, write_timeout=1)
-        self.serialPort.port = self.port
+    def start():
         try:
-            self.serialPort.open()
+            PoolCom.serialPort.open()
             return True
         except:
             return False
         
-    def stop(self):
-        if (self.serialPort.is_open):
-            self.serialPort.close()
+    def stop():
+        if (PoolCom.serialPort.is_open):
+            PoolCom.serialPort.close()
     
     # Read function. Returns True if the read was successful, False otherwise. 
-    # self.data is only updated if the read was successful. 
+    # PoolCom.data is only updated if the read was successful. 
     # This is a private method, intended only to be used by the write() function
     # in the PoolCom class. 
-    def _read(self):
+    def _read():
         # Read message
-        msg = self.serialPort.readline()
+        msg = PoolCom.serialPort.readline()
 
         # Check if any data was read
         if (len(msg) > 0):
@@ -60,11 +60,11 @@ class PoolCom:
             msg = msg.decode("utf-8").strip()
 
             # Store data
-            self.data = msg
-            self.goodRead = True
+            PoolCom.data = msg
+            PoolCom.goodRead = True
             return True
         else:
-            self.goodRead = False
+            PoolCom.goodRead = False
             return False
     
     
@@ -94,11 +94,11 @@ class PoolCom:
                 0: Turn device off
                 1: Turn device on
     '''
-    def write(self, reqType, device, data):
+    def write(reqType, device, data):
         msg = "{rt} {dv} {dt}".format(rt=reqType, dv=device, dt=data)
         try:
-            self.serialPort.write(msg.encode("utf-8"))
-            self._read()
+            PoolCom.serialPort.write(msg.encode("utf-8"))
+            PoolCom._read()
             return True
         except:
             return False

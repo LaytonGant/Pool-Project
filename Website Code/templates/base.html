@@ -60,8 +60,7 @@
                         body: formData,
                     }).then(function(response) {
                         // do something with the response if needed
-                        var t = document.getElementById("Temperature").innerHTML;
-                        document.getElementById("Temperature").innerHTML = Number(t)+1;
+                        tempUp();
                     }).catch(function(err) {
                         // error handling if needed
                     });

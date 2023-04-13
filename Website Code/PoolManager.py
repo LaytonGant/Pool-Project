@@ -2,13 +2,12 @@
 PoolManager.py
 Author: Colin McBride
 Date: April 7 2023
-Version 1.1
+Version 1.0
 
 A library for managing interactions with a pool controller 
 with manual and automatic methods of control. 
 
 ========== VERSIONS ==========
-v1.1 (4/10/23): Added scheduling functionality. 
 v1.0 (4/7/23): Created file. Added basic request functionality. 
 '''
 
@@ -18,9 +17,13 @@ import sched, time
 class PoolManager:
     # --- Attributes ---
     # poolCom: PoolCom object for serial communication
-    # file: File manager for reading/writing the schedule file. 
     # devices: Dictionary mapping the device IDs to their name
-    # schedManager: Scheduler object for maintaining time-based automation. 
+    # file: File manager for reading/writing the schedule file. (not implemented)
+    # schedManager: Scheduler object for maintaining time-based automation. (not implemented)
+
+    PoolCom.initialize(9600,"COM7")
+
+    isInit = False
 
     devices = {
         # Input devices
@@ -35,39 +38,42 @@ class PoolManager:
         "Lights" : 13
     }
 
-
-    # PoolManager constructor. Initializes serial communication and 
+    
+    # PoolManager initializer. Initializes serial communication and 
     # file management. 
-    def __init__(self):
-        # Make and start pool com
-        self.poolCom = PoolCom(9600,"COM8")
-        self.poolCom.start()
-        schedManager = sched.scheduler(time.time, time.sleep)
+    def initialize():
+        # Start pool com
+        PoolManager.openCom()
+
+        # Create scheduler
+        # schedManager = sched.scheduler(time.time, time.sleep)
+
+        PoolManager.isInit = True
     
 
     # Opens serial communication
-    def openCom(self):
+    def openCom():
         # If com is not already open, open communication
-        if not self.poolCom.serialPort.is_open:
-            self.poolCom.start()
+        if not PoolCom.serialPort.is_open:
+            PoolCom.start()
 
 
     # Closes serial communication
-    def closeCom(self):
+    def closeCom():
         # If com is not already closed, close communication
-        if self.poolCom.serialPort.is_open:
-            self.poolCom.stop()
+        if PoolCom.serialPort.is_open:
+            PoolCom.stop()
     
 
     # Requests the status of every device on the pool controller. 
     # Returns a dictionary with each device name and status. 
-    def reqFullStatus(self):
+    def reqFullStatus():
         # Initialize dictionary
         status = dict()
 
         # Request statuus of each device. Store in status dict. 
-        for k in self.devices.keys():
-            status[k] = self.reqStatus(k)
+        for k in PoolManager.devices.keys():
+            status[k] = PoolManager.reqStatus(k)
 
         # Return status
         return status
@@ -76,16 +82,16 @@ class PoolManager:
     # Requests the status of an individual device on the pool controller. 
     # Returns an integer representing the device status, or -1 if the device 
     # status could not be determined. 
-    def reqStatus(self, device):
-        # Don't read if COM port is not open
-        if not self.poolCom.serialPort.is_open:
+    def reqStatus(device):
+        # Try to open if COM port is not open
+        if not PoolCom.serialPort.is_open:
             return -1
 
         # Port is open, try to request status
-        if device in self.devices.keys():
-            self.poolCom.write(0,self.devices[device],0)
-            if self.poolCom.goodRead:
-                return self.poolCom.data
+        if device in PoolManager.devices.keys():
+            PoolCom.write(0,PoolManager.devices[device],0)
+            if PoolCom.goodRead:
+                return PoolCom.data
             else:
                 return -1
         else:
