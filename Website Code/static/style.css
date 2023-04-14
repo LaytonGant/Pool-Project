@@ -162,6 +162,12 @@ input:checked + .slider:before {
     background-color: #e35b07;
 }
 
+.heater-wrapper {
+    width: 15%;
+    float:left;
+    background-color: #4CAF50;
+}
+
 .temp-wrapper {
     width: 5%;
     float:left;
@@ -183,7 +189,7 @@ input:checked + .slider:before {
 .CurrentStatus {
     width: 100%;
     float:left;
-    background-color; #2e0a20
+    background-color: #2e0a20;
     text-decoration: underline solid #F7F7F7;
 }
 

@@ -19,7 +19,7 @@
                 <div class="pump-wrapper">
                     <p>Pool Pump</p>
                     <label class="switch">
-                        <input type="checkbox" name="pumpSwitch" onclick="makePost()">
+                        <input type="checkbox" name="pumpSwitch" checked="{{pump}}" onclick="makePost()">
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -27,7 +27,7 @@
                 <div class="lights-wrapper">
                     <p>Lights</p>
                     <label class="switch">
-                            <input type="checkbox" name="lightsSwitch" onclick="makePost()">
+                            <input type="checkbox" name="lightsSwitch" checked="{{lights}}" onclick="makePost()">
                             <span class="slider round"></span>
                     </label>
                 </div>
@@ -35,7 +35,15 @@
                 <div class="filter-wrapper">
                     <p>Pool Filter</p>
                     <label class="switch">
-                        <input type="checkbox" name="filterSwitch" onclick="makePost()">
+                        <input type="checkbox" name="filterSwitch" checked="{{filter}}" onclick="makePost()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="heater-wrapper">
+                    <p>Heater</p>
+                    <label class="switch">
+                        <input type="checkbox" name="filterSwitch" checked="{{heater}}" onclick="makePost()">
                         <span class="slider round"></span>
                     </label>
                 </div>

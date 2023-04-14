@@ -19,6 +19,10 @@ def home():
     waterTemperature = status["WaterTemp"]
     airTemperature = status["AirTemp"]
     phLevel = status["pH"]
+    pump = status["Pump"] == 1
+    heater = status["Heater"] == 1
+    filter = status["Filter"] == 1
+    lights = status["Lights"] == 1
     
     # Check request type
     # POST
@@ -34,7 +38,8 @@ def home():
     
     # Render template
     return render_template("Website.html", waterLevel=waterLevel , waterTemperature=waterTemperature,
-                        airTemperature=airTemperature, phLevel=phLevel)
+                        airTemperature=airTemperature, phLevel=phLevel, pump=pump, heater=heater, 
+                        filter=filter, lights=lights)
 
 
 def postFunc(elem):
