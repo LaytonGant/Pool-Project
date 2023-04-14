@@ -16,12 +16,18 @@ header {
 }
 
 div.DataBox {
-    border: 5px groove #5c5c5c;
+    border: 6px solid #343e4a;
     left:5px;
     top:8px;
     width:60%;
     float:left;
     background-color: #3e2d63;
+}
+
+.MaherDiv {
+    position: center;
+    margin-left: 50px;
+    float: left;
 }
 
 hl {
@@ -43,6 +49,13 @@ p {
     color: white;
     font-family: verdana;
     font-size: 100%;
+}
+
+h2 {
+    color: white;
+    font-family: verdana;
+    font-size: 150%;
+    text-align: center;
 }
 
 p.Temp {
@@ -139,27 +152,57 @@ input:checked + .slider:before {
 }
 
 .pump-wrapper {
-    width: 15%;
+    width: 10%;
     float:left;
     background-color: #cb24d1;
 }
 
 .lights-wrapper {
-    width: 15%;
+    width: 10%;
     float:left;
     background-color: #dbce16;
 }
 
 .filter-wrapper {
-    width: 15%;
+    width: 10%;
     float:left;
     background-color: #e35b07;
 }
 
 .temp-wrapper {
-    width: 15%;
+    width: 5%;
     float:left;
     background-color: #3461a8;
 }
 
+.up-wrapper {
+    width: 5%;
+    float:left;
+    background-color: #805855;
+}
+
+.down-wrapper {
+    width: 5%;
+    float:left;
+    background-color: #4dc9c5;
+}
+
+.temp-text {
+    width: 10%;
+    float:left;
+    background-color: #32a852;
+}
+
+.CurrentStatus {
+    width: 50%;
+    float:left;
+    background-color; #2e0a20;
+    text-decoration: underline solid #F7F7F7;
+}
+
+.schedule {
+    width 20%;
+    float:left;
+    background-color; #f7d307;
+}
 

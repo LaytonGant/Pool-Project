@@ -7,6 +7,8 @@
     A library for sending and receiving commands from a Raspberry Pi 
     for a pool controller. 
 
+    ========== VERSIONS ==========
+    v1.0 (3/30/23): Created file. Added basic init, read, and write functionality. 
 */
 
 #ifndef PoolCom_h

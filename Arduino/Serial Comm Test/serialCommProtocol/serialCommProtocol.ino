@@ -5,11 +5,11 @@ PoolCom poolCom(9600);
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   poolCom.init();
-  poolCom.test();
 }
 
 void loop() {
   if (poolCom.read()) {
+    poolCom.write(1);
     if (poolCom.getReqType() == 2) {
       flashLED();
     }
@@ -19,12 +19,7 @@ void loop() {
     if (poolCom.getData() == 1) {
       flashLED();
     }
-    poolCom.write(1);
   }
-  else {
-    poolCom.write(0);
-  }
-  delay(1000);
 }
 
 void flashLED() {
