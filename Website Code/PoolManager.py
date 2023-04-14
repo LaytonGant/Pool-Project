@@ -42,6 +42,10 @@ class PoolManager:
     # PoolManager initializer. Initializes serial communication and 
     # file management. 
     def initialize():
+        # Do not initialize more than once
+        if PoolManager.isInit:
+            return
+
         # Start pool com
         PoolManager.openCom()
 

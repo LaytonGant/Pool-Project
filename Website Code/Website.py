@@ -3,14 +3,13 @@ from PoolManager import *
 
 # Initialization
 app = Flask(__name__)
-if not PoolManager.isInit:
-    PoolManager.initialize() # This doesn't work >:(((
 
 # Home page
 @app.route("/", methods=["GET","POST"])
 def home():
     # Initialize pool manager
-    #poolManager.openCom()
+    if not PoolManager.isInit:
+        PoolManager.initialize()
 
     # Request status of pool controller
     status = PoolManager.reqFullStatus()
