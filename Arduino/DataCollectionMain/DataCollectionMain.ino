@@ -1,3 +1,5 @@
+
+
 /*
 Example sketch for interfacing with the DS1620 temperature chip.
 
@@ -5,91 +7,181 @@ Copyright (c) 2011, Matt Sparks
 All rights reserved.
 */
 
-
+#include <PoolCom.h>
 #include <stdlib.h>
 // #include <DS1620.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-#define AIR_TEMP_SENS 1    // Air Temperature Sensor
+// Temperature Sensors Definitions
+#define AIR_TEMP_SENS 8    // Air Temperature Sensor
 #define WATER_TEMP_SENS 2    // Water Temperature Sensor
+
+// Water Level Sensor
 #define WATER_SENSOR 3    //Water Level Sensor
+
+// Relays
 #define RELAY_1 4    // Relay 1
 #define RELAY_2 5    // Relay 2
 #define RELAY_3 6    // Relay 3
 #define RELAY_4 7    // Relay 4
 
+// PH Sensor
 #define SensorPin A0            //pH meter Analog output to Arduino Analog Input 0
-#define Offset -.61            //deviation compensate
+#define Offset -3.11            //deviation compensate
 #define LED 13
 #define samplingInterval 20
 #define printInterval 800
-#define ArrayLenth  40    //times of collection
-int pHArray[ArrayLenth];   //Store the average value of the sensor feedback
+#define ArrayLength  40    //times of collection
+int pHArray[ArrayLength];   //Store the average value of the sensor feedback
 int pHArrayIndex=0;
+int pHInitializationIndex=0;
 
-OneWire oneWire(AIR_TEMP_SENS);
-OneWire oneWire(WATER_TEMP_SENS);
+// Temperature Sentor Variables
+OneWire oneWireA(AIR_TEMP_SENS);
+OneWire oneWireW(WATER_TEMP_SENS);
+DallasTemperature sensorAir(&oneWireA);
+DallasTemperature sensorWater(&oneWireW);
 
+String waterLevel;
 
-DallasTemperature sensors(&oneWire);
+float Celcius=0;
+float Fahrenheit=0;
 
- float Celcius=0;
- float Fahrenheit=0;
+int relay;
 
-
-// Set the appropriate digital I/O pin connections.
-// See the datasheet f  qor more details.
-// static const uint8_t RST_PIN = 5;  // pin 3 on DS1620
-// static const uint8_t CLK_PIN = 6;  // pin 2 on DS1620
-// static const uint8_t DQ_PIN  = 7;  // pin 1 on DS1620
-
-
-// DS1620 ds1620(RST_PIN, CLK_PIN, DQ_PIN);
+PoolCom poolCom(9600);
 
 void setup()
 {
   Serial.begin(9600); // Baud rate
   delay(100);
 
-  //ds1620.config();
-
-  sensors.begin();
+  /*
+  sensorWater.begin();
+  sensorAir.begin();
+  */
 
   pinMode(WATER_SENSOR, INPUT);
-
-  pinMode(LED,OUTPUT);
-  Serial.begin(9600);
-  Serial.println("pH meter experiment!");    //Test the serial monitor
+  pinMode(RELAY_1, OUTPUT);
+  pinMode(RELAY_2, OUTPUT);
+  pinMode(RELAY_3, OUTPUT);
+  pinMode(RELAY_4, OUTPUT);
+  // pinMode(LED,OUTPUT);  
+  // Serial.println("pH meter experiment!");    //Test the serial monitor
 }
 
 
 void loop()
 {
+  if(poolCom.read()){
+    if(poolCom.getReqType()==0){
+      poolCom.write(6);
+      /*
+      switch(poolCom.getDevice()){
+        
+        case 0:   
+          Celcius=sensorAir.getTempCByIndex(0);
+          Fahrenheit=sensorAir.toFahrenheit(Celcius);
+          poolCom.write(Fahrenheit);
+          break;
+        case 1:
+          Celcius=sensorWater.getTempCByIndex(0);
+          Fahrenheit=sensorWater.toFahrenheit(Celcius);
+          poolCom.write(Fahrenheit);
+          break;
+        case 2:
+          poolCom.write(7);//displayPHLevel());
+        break;
+        case 3:
+          poolCom.write((float)digitalRead(WATER_SENSOR));
+          break;
+          /*
+        case 10:   
+          poolCom.write(digitalRead(RELAY_1));
+          break;
+        case 11:
+          poolCom.write(digitalRead(RELAY_2));
+          break;
+        case 12:
+          poolCom.write(digitalRead(RELAY_3));
+          break;
+        case 13:
+          poolCom.write(digitalRead(RELAY_4));
+          break;
+      }
+      */
+    } // end if req = 0
+    /*
+    else{
+      switch(poolCom.getDevice()){
+        case 10:   
+          digitalWrite(RELAY_1,poolCom.getData());
+          break;
+        case 11:
+          digitalWrite(RELAY_2,poolCom.getData());
+          break;
+        case 12:
+          digitalWrite(RELAY_3,poolCom.getData());
+          break;
+        case 13:
+          digitalWrite(RELAY_4,poolCom.getData());
+          break;
+      
+      }
+      poolCom.write(0)
+    } 
+    */
+  } // end if read
+  
+  
+  
   /*
-  const float temp_c = ds1620.temp_c() / 11;
-  const float temp_f = temp_c * 9/5.0 + 32;
-
-  Serial.println("Air Temp");
-  Serial.print(" C  ");
-  Serial.print(temp_c, 1);
-  Serial.print(" F  ");
-  Serial.println(temp_f, 1);  // 1 decimal place
+  displayPHLevel();  
+  displayTemperatures();
+  displayWaterLevel();
+  
+  relay = (relay + 1)%1;
+  digitalWrite(RELAY_1, relay);
+  digitalWrite(RELAY_2, relay);
+  digitalWrite(RELAY_3, relay);
+  digitalWrite(RELAY_4, relay);
+  delay(1000);
   */
+  
+} // end loop
 
-  Serial.println("Water Temp");
-  sensors.requestTemperatures(); 
-  Celcius=sensors.getTempCByIndex(0);
-  Fahrenheit=sensors.toFahrenheit(Celcius);
+float displayTemperatures(){
+  Serial.println("Water Temperature");
+  sensorWater.requestTemperatures(); 
+  Celcius=sensorWater.getTempCByIndex(0);
+  Fahrenheit=sensorWater.toFahrenheit(Celcius);
   Serial.print(" C  ");
   Serial.print(Celcius);
   Serial.print(" F  ");
   Serial.println(Fahrenheit);
-
-  Serial.println(digitalRead(WATER_SENSOR));
   
-  delay(1000);
+  Serial.println("Air Temperature");
+  sensorAir.requestTemperatures(); 
+  Celcius=sensorAir.getTempCByIndex(0);
+  Fahrenheit=sensorAir.toFahrenheit(Celcius);
+  Serial.print(" C  ");
+  Serial.print(Celcius);
+  Serial.print(" F  ");
+  Serial.println(Fahrenheit);
+}
 
+void displayWaterLevel(){
+  waterLevel = " ";
+  if(digitalRead(WATER_SENSOR))
+     waterLevel = "Low";
+  else
+     waterLevel = "High";
+  Serial.println("Water Level");
+  Serial.println(" "+ waterLevel);
+}
+
+float displayPHLevel(){
   static unsigned long samplingTime = millis();
   static unsigned long printTime = millis();
   static float pHValue,voltage;
@@ -97,19 +189,31 @@ void loop()
   {
       pHArray[pHArrayIndex++]=analogRead(SensorPin);
       /// Serial.println(analogRead(SensorPin)); for analog pin testing
-      if(pHArrayIndex==ArrayLenth)pHArrayIndex=0;
-      voltage = avergearray(pHArray, ArrayLenth)*5.0/1024;
+      if(pHArrayIndex==ArrayLength)pHArrayIndex=0;
+      voltage = avergearray(pHArray, ArrayLength)*5.0/1024;
       pHValue = 3.5*voltage+Offset;
       samplingTime=millis();
   }
   if(millis() - printTime > printInterval)   //Every 800 milliseconds, print a numerical, convert the state of the LED indicator
   {
-    Serial.print("Voltage:");
-        Serial.print(voltage,2);
-        Serial.print("    pH value: ");
-    Serial.println(pHValue,2);
-        digitalWrite(LED,digitalRead(LED)^1);
-        printTime=millis();
+    //Serial.println("PH");
+    if(pHInitializationIndex>ArrayLength){
+      /*
+      Serial.print("Voltage:");
+          Serial.print(voltage,2);
+          Serial.print("    pH value: ");
+      Serial.println(pHValue,2);
+          digitalWrite(LED,digitalRead(LED)^1);
+          printTime=millis();
+      */
+      //Serial.println(pHValue,2);
+      return pHValue;
+    }
+    else{
+      pHInitializationIndex++;
+      //Serial.println(" Uninitialized");
+      return -1;
+    }
   }
 }
 
@@ -152,3 +256,4 @@ double avergearray(int* arr, int number){
   }//if
   return avg;
 }
+
