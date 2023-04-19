@@ -18,9 +18,6 @@
     
     <form id="temperatureForm" onsubmit="return makePost()"></form>
         <div class="temp-wrapper">
-            <!--
-            <p class=Temp id="Temperature":Temp>{{waterTemperature}}</p>
-            -->
             <input type="text" class=Temp id="Temperature":Temp name="temperatureValue" value={{waterTemperature}}>
         </div>
     </form>
@@ -54,9 +51,12 @@
         function makePost() {
             // Get form data
             const formData = new FormData(document.getElementById("temperatureForm"));
+            console.log("Form data: ");
+            for (const element of formData.keys())
+                console.log(element);
 
             // Fetch
-            fetch("/", {
+            fetch("/temperature", {
                 method: "POST",
                 body: formData,
             }).then(function(response) {
@@ -73,16 +73,18 @@
 
         // Temperature up
         function tempUp() {
-            WaterTemp = document.getElementById("Temperature").innerHTML;
+            WaterTemp = Number(document.getElementById("Temperature").value);
             WaterTemp = WaterTemp + 1;
-            document.getElementById("Temperature").innerHTML = WaterTemp;
+            console.log("Temp up: " + WaterTemp);
+            document.getElementById("Temperature").value = WaterTemp;
         }
 
         // Temperature down
         function tempDown() {
-            WaterTemp = document.getElementById("Temperature").innerHTML;
+            WaterTemp = Number(document.getElementById("Temperature").value);
             WaterTemp = WaterTemp - 1;
-            document.getElementById("Temperature").innerHTML = WaterTemp;
+            console.log("Temp down: " + WaterTemp);
+            document.getElementById("Temperature").value = WaterTemp;
         }
     </script>
 {% endblock %}

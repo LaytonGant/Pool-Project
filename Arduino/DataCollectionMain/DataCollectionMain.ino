@@ -130,7 +130,7 @@ void loop()
           break;
       
       poolCom.write(0);
-    } 
+    } // end if req = 1
     
   } // end if read
   
@@ -257,4 +257,3 @@ double avergearray(int* arr, int number){
   }//if
   return avg;
 }
-
