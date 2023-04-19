@@ -67,6 +67,18 @@ def schedule():
    # Render webpage
    return render_template("schedule.html", scheduleTimes=scheduleTimes, tempPass=tempPass)
 
+@app.route('/timing', methods=['POST', 'GET'])
+def timing():
+   print("Timing Function")
+   if 'starttm' in request.form:
+      start_time=request.form['starttm']
+      print(f"Start Time: {starttm}")
+   elif 'endtm' in request.form:
+      end_time=request.form['endtm']
+      print(f"End Time: {end.time}")
+   else:
+      return "Missing St or Et"
+   
 #@app.route("/login", methods=["POST","GET"])
 #def login():
 #    if request.method == "POST":

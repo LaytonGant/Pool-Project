@@ -234,6 +234,21 @@ p.PHLVL {
     float:left;
     background-color: #f7d307;
 }
+
+.Stime {
+    margin-left: 950px;
+    color: white;
+}
+
+.Etime {
+    margin-left: 950px;
+    color: white;
+}
+
+label {
+    color: white;
+}
+    
 /* ------------------------------------------------------------------------*/
 /* For the Maher Image */
 .MaherDiv {
