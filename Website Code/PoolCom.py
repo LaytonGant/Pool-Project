@@ -30,7 +30,7 @@ class PoolCom:
         PoolCom.port = port
         PoolCom.goodRead = False
         PoolCom.data = "-1"
-        PoolCom.serialPort = serial.Serial(baudrate=PoolCom.baud, timeout=0.5, write_timeout=1)
+        PoolCom.serialPort = serial.Serial(baudrate=PoolCom.baud, timeout=3, write_timeout=1)
         PoolCom.serialPort.port = PoolCom.port
     
     # Starts communication on the PoolCom. 
