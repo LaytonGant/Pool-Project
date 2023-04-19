@@ -1,13 +1,14 @@
 '''
 PoolManager.py
 Author: Colin McBride
-Date: April 7 2023
-Version 1.0
+Date: April 19 2023
+Version 1.1
 
 A library for managing interactions with a pool controller 
 with manual and automatic methods of control. 
 
 ========== VERSIONS ==========
+v1.1 (4/19/23): Added control functionality with setStatus function.
 v1.0 (4/7/23): Created file. Added basic request functionality. 
 '''
 
@@ -87,13 +88,31 @@ class PoolManager:
     # Returns an integer representing the device status, or -1 if the device 
     # status could not be determined. 
     def reqStatus(device):
-        # Try to open if COM port is not open
+        # Do not request if COM port is not open
         if not PoolCom.serialPort.is_open:
             return -1
 
         # Port is open, try to request status
         if device in PoolManager.devices.keys():
-            PoolCom.write(0,PoolManager.devices[device],0)
+            PoolCom.write(0, PoolManager.devices[device], 0)
+            if PoolCom.goodRead:
+                return PoolCom.data
+            else:
+                return -1
+        else:
+            return -1
+        
+    # Sets the status of an individual device on the pool controller. 
+    # Returns an integer representing the device status, or -1 if the device
+    # status could not be determined. 
+    def setStatus(device, status):
+        # Do not set if COM port is not open
+        if not PoolCom.serialPort.is_open:
+            return -1
+        
+        # Port is open, try to set status
+        if device in PoolManager.devices.keys():
+            PoolCom.write(1, PoolManager.devices[device], status)
             if PoolCom.goodRead:
                 return PoolCom.data
             else:
