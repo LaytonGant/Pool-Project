@@ -9,43 +9,80 @@
     </div>
     
     <div class="temp-text">
-                <p>Water Temperature</p>
-            </div>
-            
-            <div class="up-wrapper">
-                <form>
-                <button class="button" onclick="tempUp()">Up</button>
-                </form>
-            </div>
-            
-            <div class="temp-wrapper">
-                <p class=Temp id="Temperature":Temp>72</p>
-            </div>
-
-            <div class="down-wrapper">
-                <form>
-                <button class="button" onclick="tempDown()">Down</button>
-                </form>
-            </div>
-
-            <div class="SetT">
-                <button class="button" onclick="setTemp()">Set</button>
-            </div>
+        <p>Water Temperature</p>
+    </div>
+        
+    <div class="up-wrapper">
+        <button class="button" onclick="tempUp()">Up</button>
     </div>
     
+    <form id="temperatureForm" onsubmit="return makePost()"></form>
+        <div class="temp-wrapper">
+            <!--
+            <p class=Temp id="Temperature":Temp>{{waterTemperature}}</p>
+            -->
+            <input type="text" class=Temp id="Temperature":Temp name="temperatureValue" value={{waterTemperature}}>
+        </div>
+    </form>
+
+    <div class="down-wrapper">
+        <button class="button" onclick="tempDown()">Down</button>
+    </div>
+
+    <div class="SetT">
+        <button class="button" onclick="makePost()">Set</button>
+    </div>
+
+
     <div class="stime">
-            <form action="#' medthod="post">
-                <p><input type="text" name="starttm" /></p>
-            </form>
-        </div>
+        <p><input type="text" name="starttm" /></p>
+    </div>
 
-        <div class="etime">
-            <form action="#' medthod="post">
-                <p><input type="text" name="starttm" /></p>
-            </form>
-        </div>
+    <div class="etime">
+        <p><input type="text" name="endtm" /></p>
+    </div>
 
-        <div class="add">
-            <button class="button">Add</button>
-        </div>
+    <div class="add">
+        <button class="button">Add</button>
+    </div>
+
+    <script>
+        // Global variables
+        var WaterTemp;
+
+        // Post function for submitting form data
+        function makePost() {
+            // Get form data
+            const formData = new FormData(document.getElementById("temperatureForm"));
+
+            // Fetch
+            fetch("/", {
+                method: "POST",
+                body: formData,
+            }).then(function(response) {
+                // do something with the response if needed
+                // Update any GUI components if needed
+
+            }).catch(function(err) {
+                // error handling if needed
+            });
+
+            // Prevent form resubmit
+            return false;
+        }
+
+        // Temperature up
+        function tempUp() {
+            WaterTemp = document.getElementById("Temperature").innerHTML;
+            WaterTemp = WaterTemp + 1;
+            document.getElementById("Temperature").innerHTML = WaterTemp;
+        }
+
+        // Temperature down
+        function tempDown() {
+            WaterTemp = document.getElementById("Temperature").innerHTML;
+            WaterTemp = WaterTemp - 1;
+            document.getElementById("Temperature").innerHTML = WaterTemp;
+        }
+    </script>
 {% endblock %}
