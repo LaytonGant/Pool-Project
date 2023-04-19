@@ -75,9 +75,10 @@ void setup()
 void loop()
 {
   if(poolCom.read()){
+    
     if(poolCom.getReqType()==0){
-      poolCom.write(6);
-      /*
+      //poolCom.write(6);
+      
       switch(poolCom.getDevice()){
         
         case 0:   
@@ -96,7 +97,7 @@ void loop()
         case 3:
           poolCom.write((float)digitalRead(WATER_SENSOR));
           break;
-          /*
+          
         case 10:   
           poolCom.write(digitalRead(RELAY_1));
           break;
@@ -110,9 +111,9 @@ void loop()
           poolCom.write(digitalRead(RELAY_4));
           break;
       }
-      */
+      
     } // end if req = 0
-    /*
+    
     else{
       switch(poolCom.getDevice()){
         case 10:   
@@ -128,10 +129,9 @@ void loop()
           digitalWrite(RELAY_4,poolCom.getData());
           break;
       
-      }
-      poolCom.write(0)
+      poolCom.write(0);
     } 
-    */
+    
   } // end if read
   
   
@@ -148,6 +148,7 @@ void loop()
   digitalWrite(RELAY_4, relay);
   delay(1000);
   */
+  
   
 } // end loop
 
@@ -198,14 +199,14 @@ float displayPHLevel(){
   {
     //Serial.println("PH");
     if(pHInitializationIndex>ArrayLength){
-      /*
+      
       Serial.print("Voltage:");
           Serial.print(voltage,2);
           Serial.print("    pH value: ");
       Serial.println(pHValue,2);
           digitalWrite(LED,digitalRead(LED)^1);
           printTime=millis();
-      */
+      
       //Serial.println(pHValue,2);
       return pHValue;
     }
