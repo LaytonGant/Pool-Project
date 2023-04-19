@@ -7,26 +7,45 @@
         <a class="active" href="temperature"><i class="fa fa-fw fa-thermometer-half"></i>Temperature</a>
         <a href="schedule"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
     </div>
-    <form>
-        <div class="temp-text">
-                    <p>Water Temperature</p>
-                </div>
-                
-                <div class="up-wrapper">
-                    <button class="button" onclick="tempUp()">Up</button>
-                </div>
-                
-                <div class="temp-wrapper">
-                    <p class=Temp id="Temperature":Temp>72</p>
-                </div>
+    
+    <div class="temp-text">
+                <p>Water Temperature</p>
+            </div>
+            
+            <div class="up-wrapper">
+                <form>
+                <button class="button" onclick="tempUp()">Up</button>
+                </form>
+            </div>
+            
+            <div class="temp-wrapper">
+                <p class=Temp id="Temperature":Temp>72</p>
+            </div>
 
-                <div class="down-wrapper">
-                    <button class="button" onclick="tempDown()">Down</button>
-                </div>
+            <div class="down-wrapper">
+                <form>
+                <button class="button" onclick="tempDown()">Down</button>
+                </form>
+            </div>
 
-                <div class="schedule">
-                    <button class="button" onclick="openschedule()">Schedule</button>
-                </div>
+            <div class="schedule">
+                <button class="button" onclick="openschedule()">Schedule</button>
+            </div>
+    </div>
+    
+    <div class="stime">
+            <form action="#' medthod="post">
+                <p><input type="text" name="starttm" /></p>
+            </form>
         </div>
-    </form>
+
+        <div class="etime">
+            <form action="#' medthod="post">
+                <p><input type="text" name="starttm" /></p>
+            </form>
+        </div>
+
+        <div class="add">
+            <button class="button">Add</button>
+        </div>
 {% endblock %}
