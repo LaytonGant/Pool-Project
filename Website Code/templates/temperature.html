@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="sidenav">
+        <a href="/"><i class="fa fa-fw fa-home"></i>Home</a>
+        <a href="devices"><i class="fa fa-fw fa-tablet"></i>Devices</a>
+        <a class="active" href="temperature"><i class="fa fa-fw fa-thermometer-half"></i>Temperature</a>
+        <a href="schedule"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
+    </div>
+    <form>
+        <div class="temp-text">
+                    <p>Water Temperature</p>
+                </div>
+                
+                <div class="up-wrapper">
+                    <button class="button" onclick="tempUp()">Up</button>
+                </div>
+                
+                <div class="temp-wrapper">
+                    <p class=Temp id="Temperature":Temp>72</p>
+                </div>
+
+                <div class="down-wrapper">
+                    <button class="button" onclick="tempDown()">Down</button>
+                </div>
+
+                <div class="schedule">
+                    <button class="button" onclick="openschedule()">Schedule</button>
+                </div>
+        </div>
+    </form>
+{% endblock %}
