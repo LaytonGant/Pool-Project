@@ -4,113 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',
+    filename='style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
+    <title>Home Page</title>
     <body>
         <header>
-            <hl>&#127754; Pool Controller &#127754;</hl>
+            <h1>&#127754; Pool Controller &#127754;</h1>
         </header>
-
-        <section>
         
-            <div class="pump-wrapper">
-            <p>Pool Pump</p>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </div>
-
-            <div class="lights-wrapper">
-            <p>Lights</p>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </div>
-
-            <div class="filter-wrapper">
-            <p>Pool Filter</p>
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </div>
-
-            <div class="temp-text">
-                <p>Water Temperature</p>
-            </div>
-            
-            <div class="up-wrapper">
-                <button class="button" onclick="tempUp()">Up</button>
-            </div>
-            
-            <div class="temp-wrapper">
-                <p class=Temp id="Temperature":Temp>72</p>
-            </div>
-
-            <div class="down-wrapper">
-                <button class="button" onclick="tempDown()">Down</button>
-            </div>
-
-            <div class="schedule">
-                <button class="button" onclick="openschedule()">Schedule</button>
-            </div>
-
-            <article>
-                <h2>Hue Control Inc.</h2>
-                <h2>Controlling Your Pool Since 1969</h2>
-            </article>
-
-            <div class="CurrentStatus">
-                <p>Current Status:</p>
-            </div>
-            
-            <div class="DataBox">
-                 <script>
-                    var Temperature,CurrentTemperature,AirTemp;
-                    AirTemp = 42;
-                    CurrentTemperature = 80;
-                    Temperature = 72;
-                    function switchlight() {
-                        
-                    }
-                    function tempUp(){
-                        Temperature = Temperature + 1;
-                        document.getElementById("Temperature").innerHTML = Temperature;
-                    }
-                    function tempDown(){
-                        Temperature = Temperature - 1
-                        document.getElementById("Temperature").innerHTML = Temperature;
-                        
-                    }
-                    function DisplayTemp(){
-                         document.getElementById("CurrentTemperature").innerHTML = CurrentTemperature;
-                    }
-                    function DisplayAir(){
-                        document.getElementById("AirTemp").innerHTML = AirTemp;
-                    }
-                    function DisplayPH(){
-                        document.getElecmentById("PHLevel").innerHTML = PHLevel;
-                    }
-                    
-                </script>
-                
-                <p class=WaterLevel id="CurrentWaterLvl":Temp>Water Level {{waterLevel}} ft</p>
-                <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature {{waterTemperature}} F</p>
-                <p class=AirTemp id="AirTemp":CTemp>Air Temperature {{airTemperature}} F</p>
-                <p class=PHLVL id="PHLevel":PH>PH level {{phLevel}}</p>
-                
-            </div>
-            
-        <section>
-
-        <div class="MaherDiv">
-                <img src="static/images/Maher.jpg" alt="A funny Maher"
-                width="400"
-                height="300"/>
-        </div>
-            
+        {% block content %}
+        {% endblock %}
     </body>
 </html>

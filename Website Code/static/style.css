@@ -6,7 +6,62 @@ body {
   font-family: verdana;
 
 }
+/* ------------------------------------------------------------------------*/
+/* SideBar */
+.sidenav {
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #303133;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
 
+.sidenav a {
+  padding: 10px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #acacb5;
+  display: block;
+}
+
+.sidenav a:hover {
+  background-color: #000;
+}
+
+.active {
+  background-color: #520396;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {
+        float: none;
+        font-size: 18px;
+        display: block;
+    }
+}
+/* ------------------------------------------------------------------------*/
+div.DataBox {
+    padding: 10px;
+    border: 6px solid #343e4a;
+    margin-left:180px;
+    top:8px;
+    width:30%;
+    float:left;
+    background-color: #3e2d63;
+}
+
+article {
+    float: right;
+    padding: 10px;
+    width: 35%;
+    /* background-color: #f1f1f1; Test Website Layout Code */
+}
+/* ------------------------------------------------------------------------*/
 header {
     background-color: black;
     padding: 5px;
@@ -15,47 +70,30 @@ header {
     color: white;
 }
 
-div.DataBox {
-    border: 6px solid #343e4a;
-    left:5px;
-    top:8px;
-    width:60%;
-    float:left;
-    background-color: #3e2d63;
-}
-
-.MaherDiv {
-    position: center;
-    margin-left: 50px;
-    float: left;
-}
-
-hl {
+/* For the title at the top of the page */
+h1 {
+    margin-left: 130px;
+    margin-top: 10px;
     color: white;
     font-family: verdana;
     font-size: 200%;
     text-align: center;
-    background-color: ##3673d6;
+    background-color: #3673d6;
 }
 
-article {
-  float: left;
-  padding: 20px;
-  width: 35%;
-  background-color: #f1f1f1;
-}
-
-p {
-    color: white;
-    font-family: verdana;
-    font-size: 100%;
-}
 
 h2 {
     color: white;
     font-family: verdana;
     font-size: 150%;
     text-align: center;
+}
+/*-------------------------------------------------------------------------*/
+/*Paragraph css*/
+p {
+    color: white;
+    font-family: verdana;
+    font-size: 100%;
 }
 
 p.Temp {
@@ -77,98 +115,78 @@ p.AirTemp {
 p.PHLVL {
     left: 5px
 }
-
-.button1 {
-  background-color: #4CAF50; /* Green */
-  border-radius: 5px;
-  color: #cfcfcf;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  left: 65px;
-  top: 2px;
-}
-
-.switch {
+/*------------------------------------------------------------------------*/
+/*Radio Buttons*/
+.container { 
+  display: block;
   position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
+  margin-left: 180px;
+  margin-top: 12px;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /*background-color: #353d3d;*/
 }
 
-.slider:before {
+.container label {
+  padding-left:30px;
+  font-size: 22px;
+  color: white;
+   width: 15%; 
+}
+
+/* Hide the browser's default radio button */
+.container input {
   position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  opacity: 0;
+  cursor: pointer;
 }
 
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
   border-radius: 50%;
 }
 
-.pump-wrapper {
-    width: 10%;
-    float:left;
-    background-color: #cb24d1;
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
 }
 
-.lights-wrapper {
-    width: 10%;
-    float:left;
-    background-color: #dbce16;
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
 }
 
-.filter-wrapper {
-    width: 10%;
-    float:left;
-    background-color: #e35b07;
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
 }
 
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 6px;
+	left: 6px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+/* ------------------------------------------------------------------------*/
 .temp-wrapper {
     width: 5%;
     float:left;
@@ -186,23 +204,124 @@ input:checked + .slider:before {
     float:left;
     background-color: #4dc9c5;
 }
-
+/* ------------------------------------------------------------------------*/
 .temp-text {
+    margin-left: 180px;
     width: 10%;
     float:left;
     background-color: #32a852;
 }
 
 .CurrentStatus {
+    margin-left:180px;
     width: 50%;
     float:left;
-    background-color; #2e0a20;
+    background-color: #2e0a20;
     text-decoration: underline solid #F7F7F7;
 }
 
-.schedule {
-    width 20%;
+.DeviceSelect {
+    margin-left:180px;
+    margin-bottom: 15px;
+    width: 10%;
     float:left;
-    background-color; #f7d307;
+    background-color: #2e0a20;
+    text-decoration: underline solid #F7F7F7;
+}
+/* ------------------------------------------------------------------------*/
+.SetT {
+    width: 20%;
+    float:left;
+    background-color: #f7d307;
+}
+/* ------------------------------------------------------------------------*/
+/* For the Maher Image */
+.MaherDiv {
+    position: center;
+    margin-left: 260px;
+    float: left;
 }
 
+.stime {
+    margin-left: 950px;
+    width: 100%;
+    float: left;
+}
+
+.etime {
+    margin-left: 950px;
+    width: 100%;
+    float: left;
+}
+
+.add {
+    float: left;
+    margin-left: 1010px;
+}
+.button {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.button:hover {
+  background-color: #f1f1f1;
+}
+/* ------------------------------------------------------------------------*/
+/* Schedule Style */
+table {
+  margin-left: 180px;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  text-color:#F7F7F7;
+  padding: 8px;
+}
+
+table, td, th {
+    border: 1px solid white;
+}
+
+th {
+    color: white;
+    width:16%;
+}
+
+th:nth-child(2) {
+  background-color: #054973;
+}
+
+th:nth-child(3) {
+  background-color: #b8117d;
+}
+
+th:nth-child(4) {
+  background-color: #9e320b;
+}
+
+th:nth-child(5) {
+  background-color: #318221;
+}
+
+tr {
+    color: white;
+}
+
+h3 {
+    margin-left: 180px;
+    color: white;
+    font-family: verdana;
+    font-size: 150%;
+    text-align: left;
+}

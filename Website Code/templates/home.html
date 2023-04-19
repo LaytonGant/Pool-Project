@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="sidenav">
+        <a class="active" href="/"><i class="fa fa-fw fa-home"></i>Home</a>
+        <a href="devices"><i class="fa fa-fw fa-tablet"></i>Devices</a>
+        <a href="temperature"><i class="fa fa-fw fa-thermometer-half"></i>Temperature</a>
+        <a href="schedule"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
+    </div>
+
+    <div class="CurrentStatus">
+        <p>Current Status:</p>
+    </div>
+
+    <article>
+        <h2>Hue Control Inc.</h2>
+        <h2>Controlling Your Pool Since 1969</h2>
+    </article>
+    
+    <div class="DataBox">
+        <script>
+         var Temperature,CurrentTemperature,AirTemp;
+         AirTemp = 42;
+         CurrentTemperature = 80;
+         Temperature = 72;
+         
+            function DisplayTemp(){
+                document.getElementById("CurrentTemperature").innerHTML = CurrentTemperature;
+            }
+            function DisplayAir(){
+                document.getElementById("AirTemp").innerHTML = AirTemp;
+            }
+            function DisplayPH(){
+                document.getElecmentById("PHLevel").innerHTML = PHLevel;
+            }
+                        
+        </script>
+                    
+        <p class=WaterLevel id="CurrentWaterLvl":Temp>Water Level {{waterLevel}} ft</p>
+        <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature {{waterTemperature}} F</p>
+        <p class=AirTemp id="AirTemp":CTemp>Air Temperature {{airTemperature}} F</p>
+        <p class=PHLVL id="PHLevel":PH>PH level {{phLevel}}</p>
+                    
+        </div>
+    
+    <section>
+
+        <div class="MaherDiv">
+            <img src="static/images/Maher.jpg" alt="A funny Maher"
+            width="400"
+            height="300"/>
+        </div>
+
+    </section>
+
+    
+{% endblock %}
+
+            
