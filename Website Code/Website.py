@@ -20,13 +20,13 @@ def home():
    status = PoolManager.reqFullStatus()
 
    # Set values
-   waterLevel = "High" if status["WaterLevel"]==0 else "Low"
+   waterLevel = "High" if int(status["WaterLevel"])==0 else "Low"
    waterTemperature = status["WaterTemp"]
    airTemperature = status["AirTemp"]
    phLevel = status["pH"]
-   heaterStatus = "On" if status["Heater"]==1 else "Off"
-   filterStatus = "On" if status["Pump"]==1 else "Off"
-   if status["Pump"]==1:
+   heaterStatus = "On" if int(status["Heater"])==1 else "Off"
+   filterStatus = "On" if int(status["Pump"])==1 else "Off"
+   if int(status["Pump"])==1:
       pumpStatus = [PoolManager.pumpTimer.readHour(), PoolManager.pumpTimer.readMin(), PoolManager.pumpTimer.readSec()]
    else:
       pumpStatus = [0, 0, 0]
