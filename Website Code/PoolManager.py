@@ -15,63 +15,69 @@ v1.0 (4/7/23): Created file. Added basic request functionality.
 from PoolCom import *
 import sched, time
 
-class PoolManager:
-    # A custom exception used to report errors in use of Timer class
-    class _TimerError(Exception):
-        pass
-    # --- end _TimerError
 
-    # Timer class for any time-based functionality
-    class _Timer:
-        # --- Attributes ---
-        # _start_time: The start time of the timer
+# A custom exception used to report errors in use of Timer class
+class _TimerError(Exception):
+    pass
+# --- end _TimerError class
 
-        # Constructor
-        def __init__(self):
+# Timer class for any time-based functionality
+class _Timer:
+    # --- Attributes ---
+    # _start_time: The start time of the timer
+    # isRunning: Whether the timer is running or not 
+
+    # Constructor
+    def __init__(self):
+        self._start_time = None
+        self.isRunning = False
+
+    # Start the timer
+    def start(self):
+        if self._start_time is None:
+            self._start_time = time.perf_counter()
+            self.isRunning = True
+    
+    # Stop the timer and return elapsed time in seconds
+    def stop(self):
+        if self._start_time is not None:
+            elapsed_time = time.perf_counter() - self._start_time
             self._start_time = None
+            self.isRunning = False
+            return elapsed_time
+        
+    # Read the current value on the timer in seconds without stopping
+    def read(self):
+        if self._start_time is not None:
+            return time.perf_counter() - self._start_time
+        else:
+            return 0
+    
+    # Read the hours component of the current time
+    def readHour(self):
+        totalTime = self.read()
+        hours = totalTime // 3600   # floor division
+        return hours
+    
+    def readMin(self):
+        totalTime = self.read()
+        mins = (totalTime - 3600*self.readHour()) % 60
+        return mins
+    
+    # Read the seconds component of the current time
+    def readSec(self):
+        totalTime = self.read()
+        secs = totalTime - 60*self.readMin() - 3600*self.readHour()
+        return secs
 
-        # Start the timer
-        def start(self):
-            if self._start_time is None:
-                self._start_time = time.perf_counter()
-        
-        # Stop the timer and return elapsed time in seconds
-        def stop(self):
-            if self._start_time is not None:
-                elapsed_time = time.perf_counter() - self._start_time
-                self._start_time = None
-                return elapsed_time
-            
-        # Read the current value on the timer in seconds without stopping
-        def read(self):
-            if self._start_time is not None:
-                return time.perf_counter() - self._start_time
-            else:
-                return 0
-        
-        # Read the hours component of the current time
-        def readHour(self):
-            totalTime = self.read()
-            hours = totalTime // 3600   # floor division
-            return hours
-        
-        def readMin(self):
-            totalTime = self.read()
-            mins = (totalTime - 3600*self.readHour()) % 60
-            return mins
-        
-        # Read the seconds component of the current time
-        def readSec(self):
-            totalTime = self.read()
-            secs = totalTime - 60*self.readMin() - 3600*self.readHour()
-            return secs
-
-    # --- end _Timer
+# --- end _Timer class
 
 
+class PoolManager:
     # --- Attributes ---
     # poolCom: PoolCom object for serial communication
     # devices: Dictionary mapping the device IDs to their name
+    # pumpTimer: Timer to track how long the pump has been on. 
     # file: File manager for reading/writing the schedule file. (not implemented)
     # schedManager: Scheduler object for maintaining time-based automation. (not implemented)
 
@@ -92,6 +98,8 @@ class PoolManager:
         "Lights" : 13
     }
 
+    pumpTimer = _Timer()
+
     
     # PoolManager initializer. Initializes serial communication and 
     # file management. 
@@ -102,6 +110,10 @@ class PoolManager:
 
         # Start pool com
         PoolManager.openCom()
+
+        # If com is open, send an initial communication
+        if PoolCom.serialPort.is_open:
+            PoolCom.write(0,0,0)
 
         # Create scheduler
         # schedManager = sched.scheduler(time.time, time.sleep)
@@ -147,8 +159,21 @@ class PoolManager:
 
         # Port is open, try to request status
         if device in PoolManager.devices.keys():
+            # Request status
             PoolCom.write(0, PoolManager.devices[device], 0)
+
+            # Check if good read
             if PoolCom.goodRead:
+                # If pump is on, check pump timer
+                if device=="Pump": 
+                    # If pump is on and timer is not, start timer
+                    if PoolCom.data==1 and not PoolManager.pumpTimer.isRunning:
+                        PoolManager.pumpTimer.start()
+                    # If pump is off and timer is on, stop timer
+                    if PoolCom.data==0   and PoolManager.pumpTimer.isRunning:
+                        PoolManager.pumpTimer.stop()
+
+                # Return device status
                 return PoolCom.data
             else:
                 return -1
@@ -163,6 +188,13 @@ class PoolManager:
         if not PoolCom.serialPort.is_open:
             return -1
         
+        # If device if pump, start/stop timer
+        if device=="Pump":
+            if status==1 and not PoolManager.pumpTimer.isRunning:
+                PoolManager.pumpTimer.start()
+            if status==0 and PoolManager.pumpTimer.isRunning:
+                PoolManager.pumpTimer.stop()
+        
         # Port is open, try to set status
         if device in PoolManager.devices.keys():
             PoolCom.write(1, PoolManager.devices[device], status)
@@ -173,12 +205,5 @@ class PoolManager:
         else:
             return -1
 
-      
-    # Add a scheduled event
-
-
-    # Remove a scheduled event
-
-
-    # Read all scheduled events
     
+# --- end PoolManager class

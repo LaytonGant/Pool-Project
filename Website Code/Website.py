@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 scheduleTimes = [[0] * 2 for _ in range(4)] #column 0 is off column 1 is on, range 0 is lights, range 1 is filter, range 2 is pump, range 3 is temperature
 tempPass = 0 #temperature being passed
-lastFullStatus = None    # Last successfully retrieved full status
 
 def startPoolManager():
    if not PoolManager.isInit:
@@ -21,19 +20,20 @@ def home():
    status = PoolManager.reqFullStatus()
 
    # Set values
-   if status["WaterLevel"] == 0:
-      waterLevel = "High"
-   else:
-      waterLevel = "Low"
+   waterLevel = "High" if status["WaterLevel"]==0 else "Low"
    waterTemperature = status["WaterTemp"]
    airTemperature = status["AirTemp"]
    phLevel = status["pH"]
+   heaterStatus = "On" if status["Heater"]==1 else "Off"
+   filterStatus = "On" if status["Pump"]==1 else "Off"
+   if status["Pump"]==1:
+      pumpStatus = [PoolManager.pumpTimer.readHour(), PoolManager.pumpTimer.readMin(), PoolManager.pumpTimer.readSec()]
+   else:
+      pumpStatus = [0, 0, 0]
 
-   # Set last full status
-   lastFullStatus = status
-   
    return render_template("home.html", waterLevel=waterLevel , waterTemperature=waterTemperature,
-                          airTemperature=airTemperature, phLevel=phLevel)
+                          airTemperature=airTemperature, phLevel=phLevel, heaterStatus=heaterStatus, 
+                          filterStatus=filterStatus,  pumpStatus=pumpStatus)
 
 # Devices page
 @app.route("/devices", methods=["GET", "POST"])
@@ -45,9 +45,6 @@ def devices():
    if request.method == "GET":
       # Fetch device states
       status = PoolManager.reqFullStatus()
-
-      # Set last full status
-      lastFullStatus = status
    
       # Set values
       pumpState = status["Pump"]
