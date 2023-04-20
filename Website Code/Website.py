@@ -1,5 +1,4 @@
 from flask import Flask, redirect, url_for, render_template, request
-import datetime
 from PoolManager import *
 
 app = Flask(__name__)
