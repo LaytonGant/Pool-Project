@@ -49,7 +49,7 @@ class _Timer:
     # Read the current value on the timer in seconds without stopping
     def read(self):
         if self._start_time is not None:
-            return time.perf_counter() - self._start_time
+            return int(time.perf_counter() - self._start_time)
         else:
             return 0
     
@@ -61,7 +61,7 @@ class _Timer:
     
     def readMin(self):
         totalTime = self.read()
-        mins = (totalTime - 3600*self.readHour()) % 60
+        mins = (totalTime - 3600*self.readHour()) // 60
         return mins
     
     # Read the seconds component of the current time

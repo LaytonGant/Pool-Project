@@ -25,7 +25,7 @@ def home():
    airTemperature = status["AirTemp"]
    phLevel = status["pH"]
    heaterStatus = "On" if int(status["Heater"])==1 else "Off"
-   filterStatus = "On" if int(status["Pump"])==1 else "Off"
+   filterStatus = "On" if int(status["Filter"])==1 else "Off"
    if int(status["Pump"])==1:
       pumpStatus = [PoolManager.pumpTimer.readHour(), PoolManager.pumpTimer.readMin(), PoolManager.pumpTimer.readSec()]
    else:
