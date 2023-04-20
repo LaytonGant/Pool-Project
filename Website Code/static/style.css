@@ -159,6 +159,7 @@ p {
     color: white;
     font-family: verdana;
     font-size: 100%;
+    width: auto;
 }
 
 p.Temp {
@@ -183,6 +184,7 @@ p.PHLVL {
 /*------------------------------------------------------------------------*/
 /*Radio Buttons*/
 .container { 
+  width: 35% !important;
   display: block;
   position: relative;
   margin-left: 180px;
