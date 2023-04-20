@@ -76,7 +76,7 @@ def timing():
       print(f"Start Time: {starttm}")
    elif 'endtm' in request.form:
       end_time=request.form['endtm']
-      print(f"End Time: {end.time}")
+      print(f"End Time: {endtm}")
    else:
       return "Missing St or Et"
    
