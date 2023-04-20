@@ -2,61 +2,51 @@
 {% block content %}
 
     <div class="sidenav">
-        <a href="/"><i class="fa fa-fw fa-home"></i>Home</a>
-        <a href="devices"><i class="fa fa-fw fa-tablet"></i>Devices</a>
-        <a class="active" href="temperature"><i class="fa fa-fw fa-thermometer-half"></i>Temperature</a>
-        <a href="schedule"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
+      <a href="/"><i class="fa fa-fw fa-home"></i>Home</a>
+      <a href="devices"><i class="fa fa-fw fa-tablet"></i>Devices</a>
+      <a class="active" href="temperature"><i class="fa fa-fw fa-thermometer-half"></i>Temperature</a>
+      <a href="schedule"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
     </div>
     
     <div class="temp-text">
-                <p>Water Temperature</p>
-            </div>
-            
-            <div class="up-wrapper">
-                <form>
-                <button class="button" onclick="tempUp()">Up</button>
-                </form>
-            </div>
-            
-            <div class="temp-wrapper">
-                <p class=Temp id="Temperature":Temp>72</p>
-            </div>
-
-            <div class="down-wrapper">
-                <form>
-                <button class="button" onclick="tempDown()">Down</button>
-                </form>
-            </div>
-
-            <div class="SetT">
-                <button class="button" onclick="setTemp()">Set</button>
-            </div>
+      <p>Water Temperature</p>
     </div>
     
-    <form id="temperatureForm" onsubmit="return makePost()"></form>
-        <div class="temp-wrapper">
-            <input type="text" class=Temp id="Temperature":Temp name="temperatureValue" value={{waterTemperature}}>
-        </div>
+    <div class="up-wrapper">
+      <button class="button" onclick="tempUp()">Up</button>
+    </div>
+    
+    <form id="temperatureForm" onsubmit="return makePost()">
+      <div class="temp-wrapper">
+          <input type="text" class=Temp id="Temperature":Temp name="temperatureValue" value={{waterTemperature}}>
+      </div>
+    </form>
+
+    <div class="down-wrapper">
+      <button class="button" onclick="tempDown()">Down</button>
+    </div>
+
+    <div class="SetT">
+      <button class="button" onclick="makePost()">Set</button>
+    </div>
+    
+    <div class="stime">
+      <form action="/timing" id="stime" method="POST">
+        <label for="starttm" style="color: white;">Start Time:</label><br>
+        <p><input id="starttm" type="text" name="starttm" value="" /></p>
       </form>
+    </div>
 
+    <div class="etime">
+      <form action="/timing" id="etime" method="POST">
+        <label for="endtm" style="color: white;">End Time:</label><br>
+        <p><input id="endtm" type="text" name="endtm" value="" /></p>
+      </form>
+    </div>
 
-           <div class="stime">
-          <form action="/timing" id="stime" method="POST">
-            <label for="starttm" style="color: white;">Start Time:</label><br>
-            <p><input id="starttm" type="text" name="starttm" value="" /></p>
-          </form>
-        </div>
-
-        <div class="etime">
-          <form action="/timing" id="etime" method="POST">
-            <label for="endtm" style="color: white;">End Time:</label><br>
-            <p><input id="endtm" type="text" name="endtm" value="" /></p>
-          </form>
-        </div>
-
-        <div class="add">
-          <button id="addButton" class="button">Add</button>
-        </div>
+    <div class="add">
+      <button id="addButton" class="button">Add</button>
+    </div>
 
     <script>
         // Global variables

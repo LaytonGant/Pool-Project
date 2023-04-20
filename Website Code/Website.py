@@ -50,10 +50,10 @@ def temperature():
    # Temperature change request
    if request.method == "POST":
       # If temperature is higher, turn on heater
-      if request.form["temperatureValue"] > waterTemperature:
-         PoolManager.setStatus("Pump",1)
+      if int(request.form["temperatureValue"]) > waterTemperature:
+         PoolManager.setStatus("Heater",1)
       else:
-         PoolManager.setStatus("Pump",0)
+         PoolManager.setStatus("Heater",0)
 
    # Render webpage
    return render_template("temperature.html", waterTemperature=waterTemperature, scheduleTimes=scheduleTimes, tempPass=tempPass)
