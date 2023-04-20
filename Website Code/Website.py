@@ -67,6 +67,7 @@ def schedule():
    # Render webpage
    return render_template("schedule.html", scheduleTimes=scheduleTimes, tempPass=tempPass)
 
+# Trying to call data from the temp page and the devices page
 @app.route('/timing', methods=['POST', 'GET'])
 def timing():
    print("Timing Function")

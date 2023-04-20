@@ -78,7 +78,7 @@ h1 {
     font-family: verdana;
     font-size: 200%;
     text-align: center;
-    background-color: #3673d6;
+    /*background-color: #3673d6;*/
 }
 
 
@@ -216,7 +216,7 @@ p.PHLVL {
     margin-left:180px;
     width: 50%;
     float:left;
-    background-color: #2e0a20;
+    /*background-color: #2e0a20;*/
     text-decoration: underline solid #F7F7F7;
 }
 
