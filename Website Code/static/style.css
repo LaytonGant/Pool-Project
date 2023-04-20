@@ -282,6 +282,7 @@ p.PHLVL {
     width: 100%;
     float:left;
     /*background-color: #32a852;*/
+    text-decoration: underline solid #F7F7F7;
 }
 
 .CurrentStatus {
