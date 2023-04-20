@@ -32,6 +32,12 @@
             function DisplayPH(){
                 document.getElecmentById("PHLevel").innerHTML = PHLevel;
             }
+            function DisplayHeater(){
+                document.getElecmentById("Heater").innerHTML = Heater;
+            }
+            function DisplayFilter(){
+                document.getElecmentById("PHLevel").innerHTML = Filter;
+            }
                         
         </script>
                     
@@ -39,6 +45,8 @@
         <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature: {{waterTemperature}} F</p>
         <p class=AirTemp id="AirTemp":CTemp>Air Temperature: {{airTemperature}} F</p>
         <p class=PHLVL id="PHLevel":PH>PH level: {{phLevel}}</p>
+        <p class=Heater id="Heat":CTemp>Heater Status: {{HeaterS}}</p>
+        <p class=Filter id="Filt":PH>Filter Status: {{FilterS}}</p>
                     
         </div>
     
