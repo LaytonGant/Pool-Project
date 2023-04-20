@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 scheduleTimes = [[0] * 2 for _ in range(4)] #column 0 is off column 1 is on, range 0 is lights, range 1 is filter, range 2 is pump, range 3 is temperature
 tempPass = 0 #temperature being passed
+lastFullStatus = None    # Last successfully retrieved full status
 
 def startPoolManager():
    if not PoolManager.isInit:
@@ -28,18 +29,55 @@ def home():
    waterTemperature = status["WaterTemp"]
    airTemperature = status["AirTemp"]
    phLevel = status["pH"]
+
+   # Set last full status
+   lastFullStatus = status
    
    return render_template("home.html", waterLevel=waterLevel , waterTemperature=waterTemperature,
                           airTemperature=airTemperature, phLevel=phLevel)
 
 # Devices page
-@app.route("/devices")
+@app.route("/devices", methods=["GET", "POST"])
 def devices():
    # Initialize pool manager
    startPoolManager()
 
-   # Render webpage
-   return render_template("devices.html", scheduleTimes=scheduleTimes)
+   # GET
+   if request.method == "GET":
+      # Fetch device states
+      status = PoolManager.reqFullStatus()
+
+      # Set last full status
+      lastFullStatus = status
+   
+      # Set values
+      pumpState = status["Pump"]
+      filterState = status["Filter"]
+      heaterState = status["Heater"]
+      lightState = status["Lights"]
+
+      # Render webpage
+      return render_template("devices.html", pumpState=pumpState, filterState=filterState, heaterState=heaterState, 
+                              lightState=lightState, scheduleTimes=scheduleTimes)
+
+   # POST
+   else:
+      # For a post request, use the last full status values
+      #status = lastFullStatus
+
+      # Determine status
+      if "status" in request.form.keys():
+         isOn = 1
+      else:
+         isOn = 0
+
+      # Perform device control
+      PoolManager.setStatus(request.form["device"], isOn)
+
+      # Return 
+      return render_template("devices.html")
+
+   
 
 # Temperature page
 @app.route("/temperature", methods=["GET", "POST"])

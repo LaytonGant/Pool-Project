@@ -1,52 +1,56 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
+
     <div class="sidenav">
         <a href="/"><i class="fa fa-fw fa-home"></i>Home</a>
         <a class="active" a href="devices"><i class="fa fa-fw fa-tablet"></i>Devices</a>
         <a href="temperature"><i class="fa fa-fw fa-thermometer-half"></i>Temperature</a>
         <a href="schedule"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
     </div>
-    <form>
+
+    <form id="deviceForm" onsubmit = "return makePost()">
         <div class="container">
             <p>Select A Device:</p>
         </div>
          
         <div class="container">
             <label class="label">Pool Lights
-                <input type="radio" checked="checked" name="radio">
+                <input type="radio" checked="checked" name="device" id="lightCheck" value="Lights" onclick="updateOnOff('lights')">
                 <span class="checkmark"></span>
             </label>
         </div>
 
         <div class="container">
             <label class="label">Pool Filter
-                <input type="radio" name="radio">
+                <input type="radio" name="device" id="filterCheck" value="Filter" onclick="updateOnOff('filter')">
                 <span class="checkmark"></span>
             </label>
         </div>
 
         <div class="container">
             <label class="label">Pool Pump
-                <input type="radio" name="radio">
+                <input type="radio" name="device" id="pumpCheck" value="Pump" onclick="updateOnOff('pump')">
                 <span class="checkmark"></span>
             </label>
         </div>
 
         <div class="container">
             <label class="label">Pool Heater
-                <input type="radio" name="radio">
+                <input type="radio" name="device" id="heaterCheck" value="Heater" onclick="updateOnOff('heater')">
                 <span class="checkmark"></span>
             </label>
         </div>
+
         <div class="onoff">
             <p>Off/On</p>
             <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" id="onoffCheck" name="status" onclick="makePost()">
                 <span class="slider round"></span>
             </label>
         </div>
-        
+    </form>
+
+    <form>
         <div class="stime">
             <form action="#" medthod="post">
                 <label for="stime" style="color:white">Start Time:</label><br>
@@ -65,6 +69,72 @@
             <button class="button">Add</button>
         </div>
     </form>
-</section>
+
+    <script>
+        // Global variables
+        var pumpState = "{{pumpState}}";
+        var filterState = "{{filterState}}";
+        var heaterState = "{{heaterState}}";
+        var lightState = "{{lightState}}";
+
+        // Post function for submitting form data
+        function makePost() {
+            // Get form data
+            const formData = new FormData(document.getElementById("deviceForm"));
+
+            // Update device status
+            var state = document.getElementById("onoffCheck").checked;
+            if (document.getElementById("pumpCheck").checked) {
+                pumpState = state;
+            }
+            else if (document.getElementById("filterCheck").checked) {
+                filterState = state;
+            }
+            else if (document.getElementById("lightCheck").checked) {
+                lightState = state;
+            }
+            else if (document.getElementById("heaterCheck").checked) {
+                heaterState = state;
+            }
+
+            // Make post request
+            fetch("/devices", {
+                method: "POST",
+                body: formData,
+            }).then(function(response) {
+                // do something with the response if needed
+            }).catch(function(err) {
+                // error handling if needed
+            });
+        }
+
+        // Function to update the on/off switch
+        function updateOnOff(device) {
+            // Define locals
+            var state;
+
+            // Change state of on/off switch from hidden elements
+            if (device == "pump") {
+                state = pumpState;
+            }
+            else if (device == "filter") {
+                state = filterState;
+            }
+            else if (device == "heater") {
+                state = heaterState;
+            }
+            else if (device == "lights") {
+                state = lightState;
+            }
+
+            // Change on/off state
+            if (state == "1") {
+                document.getElementById("onoffCheck").checked = true;
+            }
+            else {
+                document.getElementById("onoffCheck").checked = false;
+            }
+        }
+    </script>
 {% endblock %}
             
