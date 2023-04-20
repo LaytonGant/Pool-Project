@@ -279,10 +279,17 @@ p.PHLVL {
 
 .CurrentStatus {
     margin-left:180px;
-    width: 50%;
+    width: 35%;
     float:left;
     /*background-color: #2e0a20;*/
     text-decoration: underline solid #F7F7F7;
+}
+
+#clock{
+  margin-left: 180px;
+  color:white;
+  float:left;
+  width: auto;
 }
 
 .DeviceSelect {
