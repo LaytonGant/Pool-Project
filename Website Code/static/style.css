@@ -276,6 +276,13 @@ p.PHLVL {
   height:25px;
   font-size:20px;
 }
+
+#timer {
+  margin-left: 180px;
+  color:white;
+  float:left;
+  width: auto;
+}
 /* ------------------------------------------------------------------------*/
 .temp-text {
     margin-left: 180px;
