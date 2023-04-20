@@ -103,7 +103,7 @@ p.Temp {
 }
 
 p.CurrentTemp {
-    border-block-end-style: solid #292929S;
+    border-block-end-style: solid #292929;
     border-block-end-width: 10px;
     left: 5px;
 }
