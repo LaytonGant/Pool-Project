@@ -32,6 +32,12 @@
             function DisplayPH(){
                 document.getElecmentById("PHLevel").innerHTML = PHLevel;
             }
+            function DisplayHeater(){
+                document.getElecmentById("Heater").innerHTML = Heater;
+            }
+            function DisplayFilter(){
+                document.getElecmentById("PHLevel").innerHTML = Filter;
+            }
                         
         </script>
                     
@@ -39,6 +45,8 @@
         <p class=CurrentTemp id="CurrentTemperature":CTemp>Water Temperature: {{waterTemperature}} F</p>
         <p class=AirTemp id="AirTemp":CTemp>Air Temperature: {{airTemperature}} F</p>
         <p class=PHLVL id="PHLevel":PH>PH level: {{phLevel}}</p>
+        <p class=Heater id="Heat":CTemp>Heater Status: {{HeaterS}}</p>
+        <p class=Filter id="Filt":PH>Filter Status: {{FilterS}}</p>
                     
         </div>
     
@@ -51,19 +59,39 @@
         </div>
 
     </section>
-    
+
     <div id="clock"></div>
 
     <script>
         function updateClock() {
-            var now = new Date();
-            var time = now.toLocaleTimeString();
-            var date = now.toLocaleDateString();
-            var clock = document.getElementById("clock");
-            clock.innerText = time + " " + date;
+            try {
+                var now = new Date();
+                var options = {
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                hour12: true // set to false for 24-hour format
+                };
+                var userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                var time = now.toLocaleTimeString([], options);
+                var dateOptions = {
+                weekday: "long", // full weekday name
+                year: "numeric",
+                month: "long", // full month name
+                day: "numeric",
+                timeZone: userTimeZone
+                };
+                var date = now.toLocaleDateString([], dateOptions);
+                var clock = document.getElementById("clock");
+                if (clock) {
+                clock.innerText = time + " " + date;
+                }
+            } catch (err) {
+                console.error(err);
             }
-        
-        setInterval(updateClock, 1000);
+            }
+
+            setInterval(updateClock, 1000);
     </script>
 {% endblock %}
 

@@ -255,26 +255,41 @@ p.PHLVL {
 .temp-wrapper {
     width: 5%;
     float:left;
-    background-color: #3461a8;
+    /*background-color: #3461a8;*/
 }
 
 .up-wrapper {
+    margin-left:180px;
     width: 5%;
     float:left;
-    background-color: #805855;
+    /*background-color: #805855;*/
 }
 
 .down-wrapper {
-    width: 5%;
+    width: 75%;
     float:left;
-    background-color: #4dc9c5;
+    /*background-color: #4dc9c5;*/
+}
+
+.Temp {
+  width:50px;
+  height:25px;
+  font-size:20px;
+}
+
+#timer {
+  margin-left: 180px;
+  color:white;
+  float:left;
+  width: auto;
 }
 /* ------------------------------------------------------------------------*/
 .temp-text {
     margin-left: 180px;
-    width: 10%;
+    width: 100%;
     float:left;
-    background-color: #32a852;
+    /*background-color: #32a852;*/
+    text-decoration: underline solid #F7F7F7;
 }
 
 .CurrentStatus {
@@ -304,7 +319,9 @@ p.PHLVL {
 .SetT {
     width: 20%;
     float:left;
-    background-color: #f7d307;
+    margin-left:245px;
+    margin-top:20px;
+    /*background-color: #f7d307;*/
 }
 
 label {
@@ -362,7 +379,6 @@ table {
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  text-color: white;
   padding: 8px;
 }
 
