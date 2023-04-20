@@ -16,6 +16,59 @@ from PoolCom import *
 import sched, time
 
 class PoolManager:
+    # A custom exception used to report errors in use of Timer class
+    class _TimerError(Exception):
+        pass
+    # --- end _TimerError
+
+    # Timer class for any time-based functionality
+    class _Timer:
+        # --- Attributes ---
+        # _start_time: The start time of the timer
+
+        # Constructor
+        def __init__(self):
+            self._start_time = None
+
+        # Start the timer
+        def start(self):
+            if self._start_time is None:
+                self._start_time = time.perf_counter()
+        
+        # Stop the timer and return elapsed time in seconds
+        def stop(self):
+            if self._start_time is not None:
+                elapsed_time = time.perf_counter() - self._start_time
+                self._start_time = None
+                return elapsed_time
+            
+        # Read the current value on the timer in seconds without stopping
+        def read(self):
+            if self._start_time is not None:
+                return time.perf_counter() - self._start_time
+            else:
+                return 0
+        
+        # Read the hours component of the current time
+        def readHour(self):
+            totalTime = self.read()
+            hours = totalTime // 3600   # floor division
+            return hours
+        
+        def readMin(self):
+            totalTime = self.read()
+            mins = (totalTime - 3600*self.readHour()) % 60
+            return mins
+        
+        # Read the seconds component of the current time
+        def readSec(self):
+            totalTime = self.read()
+            secs = totalTime - 60*self.readMin() - 3600*self.readHour()
+            return secs
+
+    # --- end _Timer
+
+
     # --- Attributes ---
     # poolCom: PoolCom object for serial communication
     # devices: Dictionary mapping the device IDs to their name
