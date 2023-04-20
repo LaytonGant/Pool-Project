@@ -87,7 +87,7 @@ def temperature():
    # Temperature change request
    if request.method == "POST":
       # If temperature is higher, turn on heater
-      if int(request.form["temperatureValue"]) > waterTemperature:
+      if int(request.form["temperatureValue"]) > int(waterTemperature):
          PoolManager.setStatus("Heater",1)
       else:
          PoolManager.setStatus("Heater",0)
