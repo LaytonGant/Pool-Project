@@ -48,6 +48,10 @@ String waterLevel;
 float Celcius=0;
 float Fahrenheit=0;
 
+float phLevel;
+
+float displayPHLevel();
+
 int relay;
 
 PoolCom poolCom(9600);
@@ -67,6 +71,10 @@ void setup()
   pinMode(RELAY_2, OUTPUT);
   pinMode(RELAY_3, OUTPUT);
   pinMode(RELAY_4, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  digitalWrite(9, 1);
+  digitalWrite(10, 0);
   // pinMode(LED,OUTPUT);  
   // Serial.println("pH meter experiment!");    //Test the serial monitor
 }
@@ -74,6 +82,7 @@ void setup()
 
 void loop()
 {
+  phLevel = displayPHLevel();
   if(poolCom.read()){
     
     if(poolCom.getReqType()==0){
@@ -82,17 +91,20 @@ void loop()
       switch(poolCom.getDevice()){
         
         case 0:   
+          sensorAir.requestTemperatures(); 
           Celcius=sensorAir.getTempCByIndex(0);
           Fahrenheit=sensorAir.toFahrenheit(Celcius);
-          poolCom.write(Fahrenheit);
+          Serial.println(Fahrenheit);
+          //poolCom.write(Fahrenheit);
           break;
         case 1:
+          sensorWater.requestTemperatures(); 
           Celcius=sensorWater.getTempCByIndex(0);
           Fahrenheit=sensorWater.toFahrenheit(Celcius);
           poolCom.write(Fahrenheit);
           break;
         case 2:
-          poolCom.write(7);//displayPHLevel());
+          poolCom.write(phLevel);
         break;
         case 3:
           poolCom.write((float)digitalRead(WATER_SENSOR));
@@ -113,7 +125,6 @@ void loop()
       }
       
     } // end if req = 0
-    
     else{
       switch(poolCom.getDevice()){
         case 10:   
@@ -131,23 +142,24 @@ void loop()
       
       poolCom.write(0);
     } // end if req = 1
-    
   } // end if read
-  
+  }
   
   
   /*
   displayPHLevel();  
   displayTemperatures();
   displayWaterLevel();
-  
+  *
+
+  /*
   relay = (relay + 1)%1;
   digitalWrite(RELAY_1, relay);
   digitalWrite(RELAY_2, relay);
   digitalWrite(RELAY_3, relay);
   digitalWrite(RELAY_4, relay);
-  delay(1000);
   */
+  
   
   
 } // end loop
@@ -182,7 +194,8 @@ void displayWaterLevel(){
   Serial.println(" "+ waterLevel);
 }
 
-float displayPHLevel(){
+float displayPHLevel()
+{
   static unsigned long samplingTime = millis();
   static unsigned long printTime = millis();
   static float pHValue,voltage;
@@ -199,11 +212,12 @@ float displayPHLevel(){
   {
     //Serial.println("PH");
     if(pHInitializationIndex>ArrayLength){
-      
+      /*
       Serial.print("Voltage:");
           Serial.print(voltage,2);
           Serial.print("    pH value: ");
       Serial.println(pHValue,2);
+      */
           digitalWrite(LED,digitalRead(LED)^1);
           printTime=millis();
       
