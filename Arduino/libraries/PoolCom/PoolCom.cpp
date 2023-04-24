@@ -62,7 +62,7 @@ bool PoolCom::read() {
 
 // Writes a message. 
 // Returns false if a message cannot be successfully sent, true otherwise. 
-bool PoolCom::write(int msgData) {
+bool PoolCom::write(float msgData) {
   // Initialize local variables
   String msg;
 

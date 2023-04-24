@@ -19,7 +19,7 @@ class PoolCom {
     void init();
     void test();
     bool read();
-    bool write(int msgData);
+    bool write(float msgData);
 
     // Getters and setters
     int getBaud();

@@ -8,18 +8,14 @@ A library for managing interactions with a pool controller
 with manual and automatic methods of control. 
 
 ========== VERSIONS ==========
-v1.1 (4/19/23): Added control functionality with setStatus function.
+v1.2 (4/24/23): Added scheduling functionality
+v1.1 (4/19/23): Added control functionality with setStatus function. Added filter timer. 
 v1.0 (4/7/23): Created file. Added basic request functionality. 
 '''
 
 from PoolCom import *
 import sched, time
 
-
-# A custom exception used to report errors in use of Timer class
-class _TimerError(Exception):
-    pass
-# --- end _TimerError class
 
 # Timer class for any time-based functionality
 class _Timer:
@@ -116,7 +112,7 @@ class PoolManager:
             PoolCom.write(0,0,0)
 
         # Create scheduler
-        # schedManager = sched.scheduler(time.time, time.sleep)
+        schedManager = sched.scheduler(time.time, time.sleep)
 
         PoolManager.isInit = True
     
