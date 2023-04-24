@@ -32,7 +32,7 @@ schedThread.start()
 
 # Delay and then try adding another event
 time.sleep(3)
-schedManager.enter(4, 1, print_time, argument=("Extra event!",))
+add_more_times()
 
 # End 
 print("End main thread.")
