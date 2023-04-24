@@ -14,7 +14,7 @@ v1.0 (4/7/23): Created file. Added basic request functionality.
 '''
 
 from PoolCom import *
-import sched, time
+import schedule, time
 
 
 # Timer class for any time-based functionality
@@ -65,8 +65,28 @@ class _Timer:
         totalTime = self.read()
         secs = totalTime - 60*self.readMin() - 3600*self.readHour()
         return secs
-
 # --- end _Timer class
+
+
+# A scheduled event struct to hold 
+class _SchedEvent:
+    # --- Attributes ---
+    # id (int): Event ID
+    # device (str): Device the event controls
+    # onHour (int): Hour to turn device on
+    # onMin (int): Minute to turn device on
+    # offHour (int): Hour to turn device off
+    # offMin (int): Minute to turn device off
+
+    # Constructor
+    def __init__(self, id=-1, device=None, onHour=-1, onMin=-1, offHour=-1, offMin=-1):
+        self.id = id
+        self.device = device
+        self.onHour = onHour
+        self.onMin = onMin
+        self.offHour = offHour
+        self.offMin = offMin
+# --- end _SchedEvent
 
 
 class PoolManager:
@@ -110,9 +130,6 @@ class PoolManager:
         # If com is open, send an initial communication
         if PoolCom.serialPort.is_open:
             PoolCom.write(0,0,0)
-
-        # Create scheduler
-        schedManager = sched.scheduler(time.time, time.sleep)
 
         PoolManager.isInit = True
     
