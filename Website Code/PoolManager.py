@@ -14,7 +14,7 @@ v1.0 (4/7/23): Created file. Added basic request functionality.
 '''
 
 from PoolCom import *
-import schedule, time
+import schedule, time, csv, threading
 
 
 # Timer class for any time-based functionality
@@ -68,39 +68,57 @@ class _Timer:
 # --- end _Timer class
 
 
-# A scheduled event struct to hold 
+# A scheduled event struct to hold event data. 
+# Every scheduled event acutally has 2 jobs: an on-job and an off-job. 
+# * The on-job triggers when the device is scheduled to turn on
+# * The off-job triggers when the devices is cheduled to turn off
 class _SchedEvent:
     # --- Attributes ---
-    # id (int): Event ID
-    # device (str): Device the event controls
-    # onHour (int): Hour to turn device on
-    # onMin (int): Minute to turn device on
-    # offHour (int): Hour to turn device off
-    # offMin (int): Minute to turn device off
+    # data (dict): Dictionary containing all data elements of the event
+    #   id (int): Event ID
+    #   device (str): Device the event controls
+    #   onHour (int): Hour to turn device on
+    #   onMin (int): Minute to turn device on
+    #   offHour (int): Hour to turn device off
+    #   offMin (int): Minute to turn device off
+    # onJob (job): Job object associated with the on event in the scheduler
+    # offJob (job): Job object associated with the off event in the scheduler
 
     # Constructor
-    def __init__(self, id=-1, device=None, onHour=-1, onMin=-1, offHour=-1, offMin=-1):
-        self.id = id
-        self.device = device
-        self.onHour = onHour
-        self.onMin = onMin
-        self.offHour = offHour
-        self.offMin = offMin
+    def __init__(self, id=-1, device=" ", onHour=-1, onMin=-1, offHour=-1, offMin=-1, data:dict=dict()):
+        self.data = dict()
+        if len(data) > 0:
+            for (k,v) in data.items():
+                # Make sure all integer values in the dict are cast as integers
+                if not k=="device":
+                    self.data[k] = int(v)
+                else:
+                    self.data[k] = v
+        else:
+            self.data = {
+                "id": id,
+                "device": device,
+                "onHour": onHour,
+                "onMin": onMin,
+                "offHour": offHour,
+                "offMin": offMin
+            }
+        self.onJob = None
+        self.offJob = None
 # --- end _SchedEvent
 
 
 class PoolManager:
     # --- Attributes ---
-    # poolCom: PoolCom object for serial communication
+    # PoolCom: Static PoolCom object for serial communication. 
     # devices: Dictionary mapping the device IDs to their name
     # pumpTimer: Timer to track how long the pump has been on. 
-    # file: File manager for reading/writing the schedule file. (not implemented)
-    # schedManager: Scheduler object for maintaining time-based automation. (not implemented)
+    # events: List of scheduled events
+    # stopSchedEvent: Threading event that controls the scheduler thread. 
+    #   Use "stopSchedEvent.set()" to stop the scheduler thread. 
 
     PoolCom.initialize(9600,"COM7")
-
     isInit = False
-
     devices = {
         # Input devices
         "AirTemp"    : 0,
@@ -113,8 +131,9 @@ class PoolManager:
         "Heater" : 12,
         "Lights" : 13
     }
-
     pumpTimer = _Timer()
+    events:list[_SchedEvent] = list()
+    _stopSchedEvent:threading.Event
 
     
     # PoolManager initializer. Initializes serial communication and 
@@ -130,8 +149,39 @@ class PoolManager:
         # If com is open, send an initial communication
         if PoolCom.serialPort.is_open:
             PoolCom.write(0,0,0)
+        
+        # Read saved scheduled events
+        with open('events.csv',newline='') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                PoolManager.events.append(_SchedEvent(data=row))
 
+        # Refresh events to add to scheduler
+        PoolManager.refreshScheduler()
+
+        # Start scheduler thread
+        PoolManager._stopSchedEvent = PoolManager.runScheduler()
+
+        # Pool manager initialized
         PoolManager.isInit = True
+    
+
+    def deinitialize():
+        # Do not deinitialize more than once
+        if not PoolManager.isInit:
+            return
+
+        # Stop pool com
+        PoolManager.closeCom()
+
+        # Save scheduled events to file
+        PoolManager.saveEvents()
+
+        # Stop scheduler thread
+        PoolManager._stopSchedEvent.set()
+
+        # Pool manager is deinitialized
+        PoolManager.isInit = False
     
 
     # Opens serial communication
@@ -192,7 +242,8 @@ class PoolManager:
                 return -1
         else:
             return -1
-        
+
+
     # Sets the status of an individual device on the pool controller. 
     # Returns an integer representing the device status, or -1 if the device
     # status could not be determined. 
@@ -217,6 +268,102 @@ class PoolManager:
                 return -1
         else:
             return -1
-
     
+
+    # Creates a new event and adds it to the PoolManager.events list
+    def createEvent(device, onHour, onMin, offHour, offMin):
+        # Find next available id
+        nextId = 0
+        for e in PoolManager.events:
+            if not e.data["id"] == nextId:
+                break
+            else:
+                nextId += 1
+        
+        # Create new scheduled event
+        newEvent = _SchedEvent(id=nextId, device=device, onHour=onHour, onMin=onMin, offHour=offHour, offMin=offMin)
+
+        # Add to events list and scheduler
+        PoolManager._addEvent(newEvent)
+        PoolManager.events.append(newEvent)
+
+        # Save new events to file
+        PoolManager.saveEvents()
+    
+
+    # Deletes an existing event and removes it from the PoolManager.events list
+    # If the id is not in the events list, nothing happens
+    def deleteEvent(id):
+        # Search for event with specified id
+        for e in PoolManager.events:
+            if e.data["id"] == id:
+                PoolManager._removeEvent(e)
+                PoolManager.events.remove(e)
+        
+        # Save results
+        PoolManager.saveEvents()
+
+
+    # Turns a given integer into a 2-digit string. Only works with positive integers. 
+    def _doubleDigitize(num:int):
+        if num < 10:
+            return "0"+str(num)
+        else:
+            return str(num)
+
+
+    # Adds an event to the scheduler
+    def _addEvent(e: _SchedEvent):
+        e.onJob = schedule.every().day.at("{}:{}".format(PoolManager._doubleDigitize(e.data["onHour"]), PoolManager._doubleDigitize(e.data["onMin"])))\
+            .do(PoolManager.setStatus,(e.data["device"],"1",))
+        e.offJob = schedule.every().day.at("{}:{}".format(PoolManager._doubleDigitize(e.data["offHour"]), PoolManager._doubleDigitize(e.data["offMin"])))\
+            .do(PoolManager.setStatus,(e.data["device"],"0",))
+
+
+    # Removes an event from the scheduler
+    def _removeEvent(e: _SchedEvent):
+        schedule.cancel_job(e.onJob)
+        schedule.cancel_job(e.offJob)
+        e.onJob = None
+        e.offJob = None
+
+
+    # Refreshes the events in the scheduler by clearing and re-adding all events. 
+    # Also saves all events to a .csv file
+    def refreshScheduler():
+        schedule.clear()
+        for e in PoolManager.events:
+            PoolManager._addEvent(e)
+        PoolManager.saveEvents()
+    
+
+    # Saves all current events to a file
+    def saveEvents(fname="events.csv"):
+        fileLabels = ["id", "device", "onHour", "onMin", "offHour", "offMin"]
+        with open(fname, 'w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=fileLabels)
+            writer.writeheader()
+            for e in PoolManager.events:
+                writer.writerow(e.data)
+
+
+    # Function for continuously running the scheduler in a separate therad
+    def runScheduler(interval=1):
+        # Event to control thread execution
+        stopEvent = threading.Event()
+
+        class ScheduleThread(threading.Thread):
+            @classmethod
+            def run(cls):
+                while not stopEvent.is_set():
+                    schedule.run_pending()
+                    time.sleep(interval)
+        
+        # Create and start thread
+        continuousThread = ScheduleThread()
+        continuousThread.start()
+
+        # Return stop event for external control
+        return stopEvent
+
 # --- end PoolManager class

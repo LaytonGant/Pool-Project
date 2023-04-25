@@ -101,8 +101,11 @@ def schedule():
    # Initialize pool manager
    startPoolManager()
 
+   # Read scheduled events from PoolManager
+   events = PoolManager.events
+
    # Render webpage
-   return render_template("schedule.html", scheduleTimes=scheduleTimes, tempPass=tempPass)
+   return render_template("schedule.html", events=events, tempPass=tempPass)
 
 # Trying to call data from the temp page and the devices page
 @app.route('/timing', methods=['POST', 'GET'])
@@ -130,3 +133,6 @@ if __name__ == "__main__":
    app.run(debug=True)
    # Run as public server
    #app.run(debug=True, host='0.0.0.0', port='5000')
+
+   # Deinitialize PoolManager
+   PoolManager.deinitialize()
