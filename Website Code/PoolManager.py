@@ -315,9 +315,9 @@ class PoolManager:
     # Adds an event to the scheduler
     def _addEvent(e: _SchedEvent):
         e.onJob = schedule.every().day.at("{}:{}".format(PoolManager._doubleDigitize(e.data["onHour"]), PoolManager._doubleDigitize(e.data["onMin"])))\
-            .do(PoolManager.setStatus,(e.data["device"],"1",))
+            .do(PoolManager.setStatus,e.data["device"],"1")
         e.offJob = schedule.every().day.at("{}:{}".format(PoolManager._doubleDigitize(e.data["offHour"]), PoolManager._doubleDigitize(e.data["offMin"])))\
-            .do(PoolManager.setStatus,(e.data["device"],"0",))
+            .do(PoolManager.setStatus,e.data["device"],"0")
 
 
     # Removes an event from the scheduler
