@@ -108,7 +108,7 @@ def temperature():
          (offHour, offMin) = request.form["endtm"].split(":")
 
          # Add new control event
-         PoolManager.createEvent("Heater", onHour=onHour, onMin=onMin, offHour=offHour, offMin=offMin)
+         PoolManager.createEvent(device="Heater", onHour=onHour, onMin=onMin, offHour=offHour, offMin=offMin)
 
    # Check if target temp is set
    if not PoolManager.targetTemp==-1:

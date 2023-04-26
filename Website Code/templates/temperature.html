@@ -47,7 +47,7 @@
       </div>
 
       <div class="add">
-        <input type="button" id="addButton" class="button" value="Add">
+        <input type="button" id="addButton" class="button" value="Add" onclick="return makeSchedPost()">
       </div>
     </form>
 
@@ -96,11 +96,13 @@
             const formData = new FormData(document.getElementById("schedForm"))
 
             // Make post request
-            fetch("/devices", {
+            fetch("/temperature", {
                 method: "POST",
                 body: formData,
             }).then(function(response) {
                 // do something with the response if needed
+                document.getElementById("starttm").value = "";
+                document.getElementById("endtm").value = "";
             }).catch(function(err) {
                 // error handling if needed
             });
