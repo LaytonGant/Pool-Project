@@ -93,44 +93,50 @@
       </tr>
     </table>
     <script>
-    // Get the schedule table element
-    const scheduleTable = document.querySelector('table');
+      // Create the events array of dictionaries with all event data
+      var events = [];
+      "{% for event in events %}"
+        events.push(JSON.parse('{{event.data | tojson}}'))
+      "{% endfor %}"
 
-    // Loop through the events array and add a row for each event to the schedule table
-    events.forEach(event => {
-      // Create a new row element
-      console.log("In Loop")
-      const row = scheduleTable.insertRow(-1);
+      // Get the schedule table element
+      const scheduleTable = document.querySelector('table');
 
-      // Add cells to the row for each device
-      const timeCell = row.insertCell(0);
-      const lightsCell = row.insertCell(1);
-      const filterCell = row.insertCell(2);
-      const pumpCell = row.insertCell(3);
-      const temperatureCell = row.insertCell(4);
+      // Loop through the events array and add a row for each event to the schedule table
+      events.forEach(event => {
+        // Create a new row element
+        console.log("In Loop")
+        const row = scheduleTable.insertRow(-1);
 
-      // Set the text content of the time cell
-      const startTime = `${event.onHour}:${event.onMinute}`;
-      const endTime = `${event.offHour}:${event.offMinute}`;
-      timeCell.textContent = `${startTime} - ${endTime}`;
+        // Add cells to the row for each device
+        const timeCell = row.insertCell(0);
+        const lightsCell = row.insertCell(1);
+        const filterCell = row.insertCell(2);
+        const pumpCell = row.insertCell(3);
+        const temperatureCell = row.insertCell(4);
 
-      // Set the text content of the device cells based on the device property of the event object
-      switch (event.device) {
-        case 'lights':
-          lightsCell.textContent = 'On';
-          break;
-        case 'filter':
-          filterCell.textContent = 'On';
-          break;
-        case 'pump':
-          pumpCell.textContent = 'On';
-          break;
-        case 'temperature':
-          temperatureCell.textContent = 'Adjust';
-          break;
-        default:
-          break;
-      }
-    });
+        // Set the text content of the time cell
+        const startTime = `${event.onHour}:${event.onMinute}`;
+        const endTime = `${event.offHour}:${event.offMinute}`;
+        timeCell.textContent = `${startTime} - ${endTime}`;
+
+        // Set the text content of the device cells based on the device property of the event object
+        switch (event.device) {
+          case 'lights':
+            lightsCell.textContent = 'On';
+            break;
+          case 'filter':
+            filterCell.textContent = 'On';
+            break;
+          case 'pump':
+            pumpCell.textContent = 'On';
+            break;
+          case 'temperature':
+            temperatureCell.textContent = 'Adjust';
+            break;
+          default:
+            break;
+        }
+      });
     </script>
 {% endblock %}
