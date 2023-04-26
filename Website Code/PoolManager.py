@@ -116,6 +116,9 @@ class PoolManager:
     # events: List of scheduled events
     # stopSchedEvent: Threading event that controls the scheduler thread. 
     #   Use "stopSchedEvent.set()" to stop the scheduler thread. 
+    # targetTemp: Target temprature for when the heater is automatically controlled
+    # stopHeaterEvent: Threading event that controls the automated heater thread. 
+    #   Use "stopHeaterEvent.set()" t ostop the heater thread. 
 
     PoolCom.initialize(9600,"COM7")
     isInit = False
@@ -134,6 +137,8 @@ class PoolManager:
     pumpTimer = _Timer()
     events:list[_SchedEvent] = list()
     _stopSchedEvent:threading.Event
+    targetTemp = -1
+    stopHeaterEvent:threading.Event = None
 
     
     # PoolManager initializer. Initializes serial communication and 
@@ -281,7 +286,7 @@ class PoolManager:
                 nextId += 1
         
         # Create new scheduled event
-        newEvent = _SchedEvent(id=nextId, device=device, onHour=onHour, onMin=onMin, offHour=offHour, offMin=offMin)
+        newEvent = _SchedEvent(id=nextId, device=device, onHour=int(onHour), onMin=int(onMin), offHour=int(offHour), offMin=int(offMin))
 
         # Add to events list and scheduler
         PoolManager._addEvent(newEvent)
@@ -361,6 +366,35 @@ class PoolManager:
         
         # Create and start thread
         continuousThread = ScheduleThread()
+        continuousThread.start()
+
+        # Return stop event for external control
+        return stopEvent
+    
+
+    # Function for continuously controlling the pool temperature in a separate thread
+    def runHeaterControl(interval=60):
+        # Event to control thread execution
+        stopEvent = threading.Event()
+
+        class HeaterThread(threading.Thread):
+            @classmethod
+            def run(cls):
+                while not stopEvent.is_set():
+                    # Do temperature control stuff here
+                    if not PoolManager.targetTemp==-1:
+                        # Get current temperature
+                        currTemp = int(PoolManager.reqStatus("WaterTemp"))
+                        # Set heater based on current temperature
+                        if currTemp > PoolManager.targetTemp:
+                            PoolManager.setStatus("Heater",1)
+                        else:
+                            PoolManager.setStatus("Heater",0)
+                        # Sleep
+                        time.sleep(interval)
+        
+        # Create and start thread
+        continuousThread = HeaterThread()
         continuousThread.start()
 
         # Return stop event for external control
