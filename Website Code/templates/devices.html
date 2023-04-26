@@ -136,30 +136,7 @@
                 document.getElementById("onoffCheck").checked = false;
             } 
         }
-
-        function saveData() {
-			var deviceName = document.getElementById("device").value;
-			var startTime = document.getElementById("starttm").value;
-			var endTime = document.getElementById("endtm").value;
-			var data = deviceName + ',' + startTime + ',' + endTime + ',' + '\n';
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "save.php", true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.send("data=" + data);
-			alert("Data saved successfully!");
-			document.getElementById("device-name").value = "";
-			document.getElementById("starttm").value = "";
-			document.getElementById("endtm").value = "";
-		}
     </script>
-
-    <php
-        $data = $_POST['data'];
-        $file = 'events.csv';
-        $fp = fopen($file, 'a');
-        fwrite($fp, $data);
-        fclose($fp);
-    ?>
 
 {% endblock %}
             
