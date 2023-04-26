@@ -326,6 +326,14 @@ p.PHLVL {
     /*background-color: #f7d307;*/
 }
 
+.EnableT {
+    width: 20%;
+    float:left;
+    color:white;
+    margin-left:-100px;
+    margin-top:20px;
+}
+
 label {
     color: white;
 }

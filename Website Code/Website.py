@@ -55,23 +55,31 @@ def devices():
       # Render webpage
       return render_template("devices.html", pumpState=pumpState, filterState=filterState, heaterState=heaterState, 
                               lightState=lightState, scheduleTimes=scheduleTimes)
+   # --- end if GET
 
    # POST
    else:
-      # For a post request, use the last full status values
-      #status = lastFullStatus
-
-      # Determine status
-      if "status" in request.form.keys():
-         isOn = 1
+      # Determine if this is control form or schedule form
+      if not "starttm" in request.form:
+         # Determine status
+         if "status" in request.form.keys():
+            isOn = 1
+         else:
+            isOn = 0
+         # Perform device control
+         PoolManager.setStatus(request.form["device"], isOn)
       else:
-         isOn = 0
+         # Parse start and end times
+         (onHour, onMin) = request.form["starttm"].split(":")
+         (offHour, offMin) = request.form["endtm"].split(":")
 
-      # Perform device control
-      PoolManager.setStatus(request.form["device"], isOn)
+         # Add new control event
+         PoolManager.createEvent(device=request.form["schedDevice"], onHour=onHour, onMin=onMin, offHour=offHour, offMin=offMin)
 
       # Return 
       return render_template("devices.html")
+   # --- end if POST
+# --- end devices()
 
    
 
@@ -81,19 +89,43 @@ def temperature():
    # Initialize pool manager
    startPoolManager()
 
-   # Retrieve water temperature
-   waterTemperature = PoolManager.reqStatus("WaterTemp")
-
    # Temperature change request
    if request.method == "POST":
-      # If temperature is higher, turn on heater
-      if int(request.form["temperatureValue"]) > int(waterTemperature):
-         PoolManager.setStatus("Heater",1)
+      # Determine if this is a control or schedule form
+      if not "starttm" in request.form:
+         # Set target temperature
+         PoolManager.targetTemp = int(request.form["temperatureValue"])
+
+         # If checkbox is selected, enable auto heater control
+         if "enableTemp" in request.form:
+            PoolManager.stopHeaterEvent = PoolManager.runHeaterControl()
+         else:
+            if not PoolManager.stopHeaterEvent==None:
+               PoolManager.stopHeaterEvent.set()
       else:
-         PoolManager.setStatus("Heater",0)
+         # Parse start and end times
+         (onHour, onMin) = request.form["starttm"].split(":")
+         (offHour, offMin) = request.form["endtm"].split(":")
+
+         # Add new control event
+         PoolManager.createEvent("Heater", onHour=onHour, onMin=onMin, offHour=offHour, offMin=offMin)
+
+   # Check if target temp is set
+   if not PoolManager.targetTemp==-1:
+      waterTemperature = PoolManager.targetTemp
+   # If not, retrieve water temperature
+   else:
+      waterTemperature = PoolManager.reqStatus("WaterTemp")
+   
+   # Check if auto-heater is on
+   if (not PoolManager.stopHeaterEvent==None) and (not PoolManager.stopHeaterEvent.is_set()):
+      autoHeater = True
+   else:
+      autoHeater = False
 
    # Render webpage
-   return render_template("temperature.html", waterTemperature=waterTemperature, scheduleTimes=scheduleTimes, tempPass=tempPass)
+   return render_template("temperature.html", waterTemperature=waterTemperature, autoHeater=autoHeater, scheduleTimes=scheduleTimes, tempPass=tempPass)
+
 
 # Schedule page
 @app.route("/schedule")

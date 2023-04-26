@@ -12,41 +12,44 @@
       <p>Water Temperature:</p>
     </div>
     
-    <div class="up-wrapper">
-      <button class="button" onclick="tempUp()">Up</button>
-    </div>
-    
     <form id="temperatureForm" onsubmit="return makePost()">
+      <div class="up-wrapper">
+        <button class="button" onclick="tempUp()">Up</button>
+      </div>
+    
       <div class="temp-wrapper">
           <input type="text" class=Temp id="Temperature":Temp name="temperatureValue" value={{waterTemperature}}>
       </div>
+
+      <div class="down-wrapper">
+        <button class="button" onclick="tempDown()">Down</button>
+      </div>
+
+      <div class="SetT">
+        <input type="button" name="setTemp" onclick="makePost()" value="Set">
+      </div>
+
+      <div class="EnableT">
+        <input type="checkbox" id="enableTemp" name="enableTemp" value="">Enable Auto-Heater</input>
+      </div>
+
     </form>
-
-    <div class="down-wrapper">
-      <button class="button" onclick="tempDown()">Down</button>
-    </div>
-
-    <div class="SetT">
-      <button class="button" onclick="makePost()">Set</button>
-    </div>
     
-    <div class="stime">
-      <form action="/timing" id="stime" method="POST">
+    <form id="schedForm" onsubmit="return makeSchedPost()">
+      <div class="stime">
         <label for="starttm" style="color: white;">Start Time:</label><br>
         <p><input id="starttm" type="text" name="starttm" value="" /></p>
-      </form>
-    </div>
+      </div>
 
-    <div class="etime">
-      <form action="/timing" id="etime" method="POST">
+      <div class="etime">
         <label for="endtm" style="color: white;">End Time:</label><br>
         <p><input id="endtm" type="text" name="endtm" value="" /></p>
-      </form>
-    </div>
+      </div>
 
-    <div class="add">
-      <button id="addButton" class="button">Add</button>
-    </div>
+      <div class="add">
+        <input type="button" id="addButton" class="button" value="Add">
+      </div>
+    </form>
 
     <script>
         // Global variables
@@ -56,6 +59,11 @@
         const endInput = document.getElementById('endtm');
         const startForm = document.getElementById('stime');
         const endForm = document.getElementById('etime');
+
+        // Check heater automation status
+        if ("{{autoHeater}}"=="True") {
+          document.getElementById("enableTemp").checked = true;
+        }
 
 
         // Post function for submitting form data
@@ -77,9 +85,32 @@
             }).catch(function(err) {
                 // error handling if needed
             });
+
+            // return
+            return false;
           }
 
+          // Post function for submitting schedule form data
+        function makeSchedPost() {
+            // Get form data
+            const formData = new FormData(document.getElementById("schedForm"))
 
+            // Make post request
+            fetch("/devices", {
+                method: "POST",
+                body: formData,
+            }).then(function(response) {
+                // do something with the response if needed
+            }).catch(function(err) {
+                // error handling if needed
+            });
+            
+            // return
+            return false;
+        }
+          
+          // Old add button implementation
+          /*
           addBtn.addEventListener('click', function() {
             console.log("event Listener");
             console.log(startInput.value);
@@ -121,12 +152,13 @@
               console.error('There was a problem with the fetch operation:', error);
             });
           });
+          */
 
         // Temperature up
         function tempUp() {
             WaterTemp = Number(document.getElementById("Temperature").value);
             WaterTemp = WaterTemp + 1;
-            console.log("Temp up: " + WaterTemp);
+            //console.log("Temp up: " + WaterTemp);
             document.getElementById("Temperature").value = WaterTemp;
         }
 
@@ -134,7 +166,7 @@
         function tempDown() {
             WaterTemp = Number(document.getElementById("Temperature").value);
             WaterTemp = WaterTemp - 1;
-            console.log("Temp down: " + WaterTemp);
+            //console.log("Temp down: " + WaterTemp);
             document.getElementById("Temperature").value = WaterTemp;
         }
     </script>

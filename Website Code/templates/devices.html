@@ -8,7 +8,7 @@
         <a href="schedule"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
     </div>
 
-    <form id="deviceForm" onsubmit = "return makePost()">
+    <form id="deviceForm" onsubmit="return makePost()">
         <div class="container">
             <p>Select A Device:</p>
         </div>
@@ -50,24 +50,22 @@
         </div>
     </form>
 
-    <form>      
+    <form id="schedForm" onsubmit="return makeSchedPost()">      
         <div class="stime">
-            <form action="#" medthod="post">
-                <label for="stime" style="color:white">Start Time:</label><br>
-                <p><input type="text" name="starttm" /></p>
-            </form>
+            <label for="stime" style="color:white">Start Time:</label><br>
+            <p><input type="text" name="starttm" /></p>
         </div>
 
         <div class="etime">
-            <form action="#" medthod="post">
-                <label for="etime" style="color:white">End Time:</label><br>
-                <p><input type="text" name="endtm" /></p>
-            </form>
+            <label for="etime" style="color:white">End Time:</label><br>
+            <p><input type="text" name="endtm" /></p>
         </div>
 
         <div class="add">
-            <button class="button" onClick="saveData()">Add</button>
+            <input type="button" onClick="makeSchedPost()" value="Add">
         </div>
+
+        <input hidden type="text" id="schedDevice" name="schedDevice" value="Lights">
 
     </form>
 
@@ -107,6 +105,42 @@
             }).catch(function(err) {
                 // error handling if needed
             });
+
+            // return
+            return false;
+        }
+
+        // Post function for submitting schedule form data
+        function makeSchedPost() {
+            // Set device
+            if (document.getElementById("pumpCheck").checked) {
+                document.getElementById("schedDevice").value = "Pump";
+            }
+            else if (document.getElementById("filterCheck").checked) {
+                document.getElementById("schedDevice").value = "Filter";
+            }
+            else if (document.getElementById("lightCheck").checked) {
+                document.getElementById("schedDevice").value = "Lights";
+            }
+            else if (document.getElementById("heaterCheck").checked) {
+                document.getElementById("schedDevice").value = "Heater";
+            }
+
+            // Get form data
+            const formData = new FormData(document.getElementById("schedForm"))
+
+            // Make post request
+            fetch("/devices", {
+                method: "POST",
+                body: formData,
+            }).then(function(response) {
+                // do something with the response if needed
+            }).catch(function(err) {
+                // error handling if needed
+            });
+
+            // return 
+            return false;
         }
 
         // Function to update the on/off switch
