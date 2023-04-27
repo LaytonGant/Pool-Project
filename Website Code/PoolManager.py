@@ -235,10 +235,10 @@ class PoolManager:
                 # If pump is on, check pump timer
                 if device=="Pump": 
                     # If pump is on and timer is not, start timer
-                    if int(PoolCom.data)==1 and not PoolManager.pumpTimer.isRunning:
+                    if float(PoolCom.data)==1 and not PoolManager.pumpTimer.isRunning:
                         PoolManager.pumpTimer.start()
                     # If pump is off and timer is on, stop timer
-                    if int(PoolCom.data)==0   and PoolManager.pumpTimer.isRunning:
+                    if float(PoolCom.data)==0   and PoolManager.pumpTimer.isRunning:
                         PoolManager.pumpTimer.stop()
 
                 # Return device status
@@ -259,9 +259,9 @@ class PoolManager:
         
         # If device if pump, start/stop timer
         if device=="Pump":
-            if int(status)==1 and not PoolManager.pumpTimer.isRunning:
+            if float(status)==1 and not PoolManager.pumpTimer.isRunning:
                 PoolManager.pumpTimer.start()
-            if int(status)==0 and PoolManager.pumpTimer.isRunning:
+            if float(status)==0 and PoolManager.pumpTimer.isRunning:
                 PoolManager.pumpTimer.stop()
         
         # Port is open, try to set status
