@@ -389,8 +389,8 @@ class PoolManager:
                     if not PoolManager.targetTemp==-1:
                         try:
                             # Get current temperature and heater status
-                            currTemp = int(PoolManager.reqStatus("WaterTemp"))
-                            heaterStatus = int(PoolManager.reqStatus("Heater"))
+                            currTemp = float(PoolManager.reqStatus("WaterTemp"))
+                            heaterStatus = float(PoolManager.reqStatus("Heater"))
                             # Set heater based on current temperature
                             if (currTemp < PoolManager.targetTemp) and (heaterStatus==0):
                                 PoolManager.setStatus("Heater",1)
