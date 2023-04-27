@@ -374,6 +374,10 @@ class PoolManager:
 
     # Function for continuously controlling the pool temperature in a separate thread
     def runHeaterControl(interval=60):
+        # Stop any pre-existing threads
+        if (not PoolManager.stopHeaterEvent==None) and (not PoolManager.stopHeaterEvent.is_set()):
+            PoolManager.stopHeaterEvent.set()
+
         # Event to control thread execution
         stopEvent = threading.Event()
 
@@ -383,13 +387,18 @@ class PoolManager:
                 while not stopEvent.is_set():
                     # Do temperature control stuff here
                     if not PoolManager.targetTemp==-1:
-                        # Get current temperature
-                        currTemp = int(PoolManager.reqStatus("WaterTemp"))
-                        # Set heater based on current temperature
-                        if currTemp > PoolManager.targetTemp:
-                            PoolManager.setStatus("Heater",1)
-                        else:
-                            PoolManager.setStatus("Heater",0)
+                        try:
+                            # Get current temperature and heater status
+                            currTemp = int(PoolManager.reqStatus("WaterTemp"))
+                            heaterStatus = int(PoolManager.reqStatus("Heater"))
+                            # Set heater based on current temperature
+                            if (currTemp < PoolManager.targetTemp) and (heaterStatus==0):
+                                PoolManager.setStatus("Heater",1)
+                            elif (currTemp >= PoolManager.targetTemp) and (heaterStatus==1):
+                                PoolManager.setStatus("Heater",0)
+                        except:
+                            pass
+
                         # Sleep
                         time.sleep(interval)
         

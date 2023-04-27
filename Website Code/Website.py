@@ -98,7 +98,8 @@ def temperature():
 
          # If checkbox is selected, enable auto heater control
          if "enableTemp" in request.form:
-            PoolManager.stopHeaterEvent = PoolManager.runHeaterControl()
+            if (PoolManager.stopHeaterEvent==None) or (PoolManager.stopHeaterEvent.is_set()):
+               PoolManager.stopHeaterEvent = PoolManager.runHeaterControl(5)
          else:
             if not PoolManager.stopHeaterEvent==None:
                PoolManager.stopHeaterEvent.set()
