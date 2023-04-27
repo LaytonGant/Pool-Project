@@ -116,7 +116,7 @@ def temperature():
       waterTemperature = PoolManager.targetTemp
    # If not, retrieve water temperature
    else:
-      waterTemperature = PoolManager.reqStatus("WaterTemp")
+      waterTemperature = int(float(PoolManager.reqStatus("WaterTemp")))
    
    # Check if auto-heater is on
    if (not PoolManager.stopHeaterEvent==None) and (not PoolManager.stopHeaterEvent.is_set()):
